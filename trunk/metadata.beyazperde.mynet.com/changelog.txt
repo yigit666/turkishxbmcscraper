@@ -1,0 +1,7 @@
+[B]1.0.3[/B]
+
+- web adress fixed
+
+-actor names and role not clean there is " &nbsp; " between name and surname. icannot clean that.
+
+-there isnt tv series in this web site just movies
