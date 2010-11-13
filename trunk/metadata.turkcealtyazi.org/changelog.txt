@@ -1,0 +1,18 @@
+[B]1.0.5[/B]
+ -search funcion improved to searh filter
+ filter seperate name and date if movie name the.phantom.2009
+ please clean divx.dvdrip etx after date...
+
+ [B]1.0.5[/B]
+- Search string reconfigured
+
+[B]1.0.4[/B]
+- Fanart Working from tmdb
+- Alternate posters from tmdb
+- Settings.xml add
+
+[B]1.0.3[/B]
+
+- web adress change
+-Fan art not working
+-actor photo not working
