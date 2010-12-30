@@ -1,0 +1,5 @@
+v 0.0.2
+-recent movies added
+-corrrection for non part movies
+
+Version 0.0.1 initial Version 
