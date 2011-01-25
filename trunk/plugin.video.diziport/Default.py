@@ -6,7 +6,7 @@ __language__ = __settings__.getLocalizedString
 
 def CATEGORIES():
         addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
-        addDir(__language__(30001),'http://diziport.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.png')
+        addDir(__language__(30001),'http://diziport.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         
 def RECENT(url):
         req = urllib2.Request(url)
@@ -21,7 +21,7 @@ def RECENT(url):
                 addDir(name,url,5,'http://diziport.com/'+thumbnail)
         page=re.compile('class=\'current\'><a><b>.+?</b></a></li>\n<li><a href=\'(.+?)\' rel=\'nofollow\'><b>(.+?)</b></a></li>').findall(link)
         for url,name in page:
-                addDir(__language__(30006)+' >> '+name,'http://diziport.com/'+url,1,'')
+                addDir(__language__(30006)+' >> '+name,'http://diziport.com/'+url,1,'special://home/addons/plugin.video.diziport/resources/images/next.png')
        
 def ALL(url):
         req = urllib2.Request(url)
@@ -128,8 +128,8 @@ def video(url):
         response.close()
         movie=re.compile('strSource=(.+?)\'').findall(link2)
         for url in movie:
-                addLink(name,url,'')
-
+                addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+		MAINMENU(url)
 def MAINMENU(url):
         addDir(__language__(30002),'http://diziport.com/','','special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         
