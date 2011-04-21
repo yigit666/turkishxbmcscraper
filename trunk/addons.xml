@@ -79,4 +79,22 @@
     <platform>all</platform>
   </extension>
 </addon>
+
+<addon id="plugin.video.sineman"
+       name="sineman"
+       version="0.0.1"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>movies from sineman.net</summary>
+    <description>Most recent movies from sineman.net</description>
+    <platform>all</platform>
+  </extension>
+</addon>
 </addons>
