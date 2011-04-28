@@ -6,7 +6,7 @@ __language__ = __settings__.getLocalizedString
 
 def CATEGORIES():
         addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
-        addDir(__language__(30001),'http://diziport.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+        addDir(__language__(30001),'http://diziport.com/index.php?bolum=uyelik&obje=uyekayit',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         
 def RECENT(url):
         req = urllib2.Request(url)
