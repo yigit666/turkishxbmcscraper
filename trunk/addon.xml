@@ -97,8 +97,8 @@
     <platform>all</platform>
   </extension>
 </addon>
-<addon id="plugin.video.DiziHD"
-       name="sineman"
+<addon id="plugin.video.dizihd"
+       name="dizihd"
        version="0.0.1"
        provider-name="drascom">
   <requires>
