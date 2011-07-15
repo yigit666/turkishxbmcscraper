@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <addons>
 <addon id="metadata.beyazperde.mynet.com"
        name="Beyazperde"
@@ -94,6 +94,23 @@
   <extension point="xbmc.addon.metadata">
     <summary>movies from sineman.net</summary>
     <description>Most recent movies from sineman.net</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+<addon id="plugin.video.DiziHD"
+       name="sineman"
+       version="0.0.1"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Tv series From DiziHD.com</summary>
+    <description>Most recent movies from DiziHD.com</description>
     <platform>all</platform>
   </extension>
 </addon>
