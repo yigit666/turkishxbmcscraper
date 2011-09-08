@@ -44,6 +44,24 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.dizihd"
+       name="DiziHD"
+       version="0.0.1"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos from diziHD.com</summary>
+    <description>Most recent tv series from diziHD.com</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.diziizle"
        name="Diziizle"
        version="0.0.3"
