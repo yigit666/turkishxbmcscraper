@@ -30,32 +30,26 @@ def ALL(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        match=re.compile('<li><a href="(.+?)" alt=".+?" title="(.+?)">').findall(link)
+        match=re.compile('<li><a href="(.+?)-izle" alt=".+?" title="(.+?)">').findall(link)
         for url,name in match:
                         addDir(name,'http://diziport.com/'+url,3,'')
         
         MAINMENU(url)
 def SESSION(url):
-                req = urllib2.Request(url)
+                vurl=url+'-izle'
+                req = urllib2.Request(vurl)
                 req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
                 response = urllib2.urlopen(req)
                 link=response.read()
                 link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
                 response.close()
-                match=re.compile('src="(.+?)" alt="" width="113" height="113" align="center"  />\n<a href="(.+?)" title="(.+?)"').findall(link)
-                if match>[1]:
-                        for thumbnail,url,name in match:
-                                addDir(name,'http://diziport.com/'+url,4,'http://diziport.com/'+thumbnail)
+                match=re.compile('src="(.+?)" alt="" width="113" height="113" align="center"  />\n<a href="(.+?)-izle" title="(.+?)"').findall(link)
+                if match<[1]:
+                        purl=url+'_1_sezon-izle'
+                        EPISODES(purl)
                 else:
-                        req = urllib2.Request(url)
-                        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-                        response = urllib2.urlopen(req)
-                        link=response.read()
-                        link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
-                        response.close()
-                        match=re.compile('<a href="(.+?)"><img src="(.+?)" alt="(.+?)"').findall(link)
-                        for url,thumbnail,name in match:
-                                addDir(name,'http://diziport.com/'+url,5,'http://diziport.com/'+thumbnail)
+                        for thumbnail,url,name in match:
+                                addDir(name,'http://diziport.com/'+url+'-izle',4,'http://diziport.com/'+thumbnail)        
                 MAINMENU(url)
 def EPISODES(url):
         req = urllib2.Request(url)
