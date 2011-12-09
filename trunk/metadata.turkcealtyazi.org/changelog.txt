@@ -1,3 +1,6 @@
+[B]1.0.7[/B]
+-search string update
+
 [B]1.0.6[/B]
  -search funcion improved to searh filter
  filter seperate name and date if movie name the.phantom.2009

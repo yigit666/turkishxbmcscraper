@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?><scraper framework="1,1" date="2011-03-29" name="" content="movies" thumb="icon.png" language="en">
+﻿<?xml version="1.0" encoding="utf-8"?><scraper framework="1,1" date="2011-12-09" name="New Scraper" content="movies" thumb="icon.png" language="en">
 	<NfoUrl dest="3">
-		<RegExp input="$$1" output="&lt;url&gt;\1&lt;/url&gt;" dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
 			<expression trim="1" noclean="1">(www.turkcealtyazi.org/find.php?cat=mov&amp;find=\1)</expression>
 		</RegExp>
 	</NfoUrl>
@@ -16,7 +16,7 @@
 		<RegExp input="$$5" output="&lt;?xml version=&quot;1.0&quot; encoding=&quot;iso-8859-9&quot; standalone=&quot;yes&quot;?&gt;&lt;results&gt;\1&lt;/results&gt;" dest="8">
 			<!--search results page-->
 			<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\3-\5&lt;/title&gt;&lt;url&gt;http://www.turkcealtyazi.org/mov/\1/\2.html&lt;/url&gt;&lt;id&gt;\1&lt;/id&gt;&lt;year&gt;\4&lt;/year&gt;&lt;/entity&gt; \n" dest="5">
-				<expression cs="true" repeat="yes">&lt;a href="/mov/(.[0-9]*)/(.*?).html" title="(.*?)"&gt;.[^\(]*\((.*?)\)&lt;/b&gt;&lt;/span&gt;&lt;br /&gt;&lt;b&gt;(.*?)&lt;</expression>
+				<expression cs="true" repeat="yes">&lt;a href="/mov/(.[0-9]*)/(.*?).html" title="(.*?)"&gt;.[^\(]*\((.*?)\)&lt;/b&gt;&lt;/span&gt;&lt;br /&gt;.*?&lt;b&gt;(.*?)&lt;/b&gt;</expression>
 			</RegExp>
 			<expression noclean="1" />
 		</RegExp>
