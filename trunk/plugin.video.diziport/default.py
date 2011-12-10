@@ -84,60 +84,27 @@ def VIDEOLINKS(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        page=re.compile('<li><a href="(.+?)".+? rel="nofollow">.+?</a></li> \n\t').findall(link)
-        try:
-                if page[0]>1:
-                        video(page[0])
-                else:
-                        pass
-                if page[1]>1:
-                        video(page[1])
-                else:
-                        pass
-                if page[2]>1:
-                        video(page[2])
-                else:
-                        pass
-                if page[3]>1:
-                        video(page[3])
-                else:
-                        pass
-                if page[4]>1:
-                        video(page[4])
-                else:
-                        pass
-                if page[5]>1:
-                        video(page[5])
-                else:
-                        pass
-                if page[6]>1:
-                        video(page[6])
-                else:
-                        pass
-        except:
-                pass
-def video(url):
-        http='http://diziport.com/'
-        url=http+url
+        match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?">Tek Part</a>').findall(link)
+        for u1,u2 in match:
+            url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
-        link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
+        link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        match=re.compile('islem\("(.+?)","get","(.+?)"').findall(link)
-        for path,code in match:
-        	p= path
-        	c= code
-        vurl='http://diziport.com/%s?%s' % (p, c)
-        req = urllib2.Request(vurl)
-        req.add_header('Referer',url)
+        match=re.compile('<jwplayer:file>(.*?)</jwplayer:file>').findall(link)
+        for url in match:
+                addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+def video(name,url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
-        link2=response.read()
+        link=response.read()
+        link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        movie=re.compile('strSource=(.+?)\'').findall(link2)
-        for url in movie:
-                url=url.replace('%3A',":").replace('%2F',"/").replace('%3F',"?").replace('%3D',"=").replace('%26',"&")
+        match=re.compile('<jwplayer:file>(.*?)</jwplayer:file>').findall(link)
+        for url in match:
                 addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
 
 def MAINMENU(url):
@@ -233,7 +200,7 @@ elif mode==5:
         VIDEOLINKS(url)
 elif mode==6:
         print ""+url
-        video(url)
+        video(name,url)
 elif mode==8:
         print ""+url
         PlayVid(url)
