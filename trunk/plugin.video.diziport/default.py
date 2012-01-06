@@ -84,7 +84,7 @@ def VIDEOLINKS(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?">Tek Part</a>').findall(link)
+        match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
         for u1,u2 in match:
             url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
         req = urllib2.Request(url)
