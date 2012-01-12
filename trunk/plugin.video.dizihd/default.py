@@ -7,7 +7,7 @@ __language__ = __settings__.getLocalizedString
 def CATEGORIES():
         addDir(__language__(30000),'http://www.dizihd.com/',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30001),'http://www.dizihd.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-        
+        addDir(__language__(30007),'http://www.dizihd.com/dizi-izle/belgesel-izle/',1,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
 def RECENT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
