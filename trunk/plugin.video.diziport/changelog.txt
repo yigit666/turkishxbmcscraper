@@ -1,5 +1,7 @@
+v0.0.9
+Documenteries and asian section added
 v0.0.8
-download mode added
+Download function added
 v0.0.7
 mistype regex fixed
 v0.0.6

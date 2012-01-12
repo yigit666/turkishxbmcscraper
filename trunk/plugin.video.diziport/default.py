@@ -7,22 +7,47 @@ __language__ = __settings__.getLocalizedString
 def CATEGORIES():
         addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30001),'http://diziport.com/index.php?bolum=uyelik&obje=uyekayit',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-        
+        addDir(__language__(30004),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=belgesel',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+        addDir(__language__(30007),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=asya_dizileri',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+
 def RECENT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
         link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
-        response.close()
-        MAINMENU(url)        
+        response.close()        
+        MAINMENU(url)
         match=re.compile('<img src="(.+?)" alt=".+?" width="113" height="113" align="center" /></a>\n\t<h1 class="yellow"><a href="(.+?)" title="(.+?)">').findall(link)
         for thumbnail,url,name in match:
                 addDir(name,url,5,'http://diziport.com/'+thumbnail)
+                
+        #next page        
         page=re.compile('class=\'current\'><a><b>.+?</b></a></li>\n<li><a href=\'(.+?)\' rel=\'nofollow\'><b>(.+?)</b></a></li>').findall(link)
         for url,name in page:
                 addDir(__language__(30006)+' >> '+name,'http://diziport.com/'+url,1,'special://home/addons/plugin.video.diziport/resources/images/next.png')
-       
+
+def Documentary(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
+        response.close()
+        MAINMENU(url)
+        match=re.compile('<img src="(.*?)\?hash=123" alt=".*?" width="113" height="113" />\n<a href="(.*?)" title="(.*?)">').findall(link)
+        for thumbnail,url,name in match:
+                addDir(name,'http://diziport.com/'+url,3,'http://diziport.com/'+thumbnail)
+        #next
+        page=re.compile('class=\'current\'><a><b>.+?</b></a></li>\n<li><a href=\'(.+?)\' rel=\'nofollow\'><b>(.+?)</b></a></li>').findall(link)
+        for url,name in page:
+                addDir(__language__(30006)+' >> '+name,'http://diziport.com/'+url,6,'special://home/addons/plugin.video.diziport/resources/images/next.png')
+        #previous
+        page=re.compile('<li><a href=\'(.*?)\' rel=\'nofollow\'><b>(.*?)</b>').findall(link)
+        for url,name in page:
+                addDir(__language__(30005)+' >> '+name,'http://diziport.com/'+url,6,'special://home/addons/plugin.video.diziport/resources/images/next.png')
+
+        
 def ALL(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -30,11 +55,11 @@ def ALL(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
+        MAINMENU(url)
         match=re.compile('<li><a href="(.+?)" alt=".+?" title="(.+?)">').findall(link)
         for url,name in match:
                         addDir(name,'http://diziport.com/'+url,3,'')
         
-        MAINMENU(url)
 def SESSION(url):
                 req = urllib2.Request(url)
                 req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -63,7 +88,6 @@ def SESSION(url):
                                 print 'yonlendirmeli'
                                 for url in new:
                                         EPISODES ('http://diziport.com/'+url)
-                MAINMENU(url)
                 
 def EPISODES(url):
         req = urllib2.Request(url)
@@ -72,10 +96,10 @@ def EPISODES(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
+        MAINMENU(url)
         match=re.compile('<a href="(.+?)"><img src="(.+?)" alt="(.+?)"').findall(link)
         for url,thumbnail,name in match:
                 addDir(name,'http://diziport.com/'+url,5,'http://diziport.com/'+thumbnail)
-        MAINMENU(url)
 
 def VIDEOLINKS(name,url):
         req = urllib2.Request(url)
@@ -87,6 +111,7 @@ def VIDEOLINKS(name,url):
         match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
         for u1,u2 in match:
             url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
+            #print url
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
@@ -226,7 +251,7 @@ elif mode==5:
         VIDEOLINKS(name,url)
 elif mode==6:
         print ""+url
-        video(a,url)
+        Documentary(url)
 elif mode==8:
         print ""+url
         Download(url)
