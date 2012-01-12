@@ -77,7 +77,7 @@ def EPISODES(url):
                 addDir(name,'http://diziport.com/'+url,5,'http://diziport.com/'+thumbnail)
         MAINMENU(url)
 
-def VIDEOLINKS(url):
+def VIDEOLINKS(name,url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
@@ -93,20 +93,46 @@ def VIDEOLINKS(url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        match=re.compile('<jwplayer:file>(.*?)</jwplayer:file>').findall(link)
-        for url in match:
-                addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
-def video(name,url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
-        link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
-        response.close()
-        match=re.compile('<jwplayer:file>(.*?)</jwplayer:file>').findall(link)
-        for url in match:
-                addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)
+#dialog
+        dialog = xbmcgui.Dialog()
+        ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
+        if ret == 0:
+                for mname,url in match:
+                        a = name+'-'+mname
+                        addLink(a,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+                iscanceled = True
+                return iscanceled
+        if ret == 1:
+                for mname,url in match:
+                        a = name+'-'+mname
+                        print a
+                        addDir(a,url,8,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+                iscanceled = True
+                xbmc.executebuiltin('Notification("Diziport","Downloading")')
+                return iscanceled
 
+
+def Download(url):
+                filename = (name+'.mp4')
+                def download(url, dest):
+                                dialog = xbmcgui.DialogProgress()
+                                dialog.create('Downloading Movie','From Source', filename)
+                                urllib.urlretrieve(url, dest, lambda nb, bs, fs, url = url: _pbhook(nb, bs, fs, url, dialog))
+                def _pbhook(numblocks, blocksize, filesize, url = None,dialog = None):
+                                try:
+                                                percent = min((numblocks * blocksize * 100) / filesize, 100)
+                                                dialog.update(percent)
+                                except:
+                                                percent = 100
+                                                dialog.update(percent)
+                                if dialog.iscanceled():
+                                                dialog.close()
+                if (__settings__.getSetting('download') == ''):
+                                __settings__.openSettings('download')
+                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('download'),filename))
+                download(url, filepath)
+                
 def MAINMENU(url):
         addDir(__language__(30002),'http://diziport.com/','','special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         
@@ -197,13 +223,13 @@ elif mode==4:
         EPISODES(url)
 elif mode==5:
         print ""+url
-        VIDEOLINKS(url)
+        VIDEOLINKS(name,url)
 elif mode==6:
         print ""+url
-        video(name,url)
+        video(a,url)
 elif mode==8:
         print ""+url
-        PlayVid(url)
+        Download(url)
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

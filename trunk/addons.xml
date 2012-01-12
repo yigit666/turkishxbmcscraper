@@ -82,7 +82,7 @@
 
 <addon id="plugin.video.diziport"
        name="Diziport"
-       version="0.0.7"
+       version="0.0.8"
        provider-name="drascom">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -92,8 +92,9 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>Videos from diziport.com</summary>
-    <description>Most recent tv series from diziport.com</description>
+    <summary>Tv Series  from diziport.com</summary>
+    <description> Watch and download Most recent tv series from diziport.com
+	-Diziport sitesindeki tüm dizileri ister onlie izleyin ister indirin...:)</description>
     <platform>all</platform>
   </extension>
 </addon>
