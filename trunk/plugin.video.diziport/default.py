@@ -4,12 +4,24 @@ __settings__ = xbmcaddon.Addon(id='plugin.video.diziport')
 __language__ = __settings__.getLocalizedString
 
 
-def CATEGORIES():
-        addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
-        addDir(__language__(30001),'http://diziport.com/index.php?bolum=uyelik&obje=uyekayit',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-        addDir(__language__(30004),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=belgesel',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-        addDir(__language__(30007),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=asya_dizileri',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
 
+
+            
+def CATEGORIES():
+        addDir(__language__(30011),'search',9,'special://home/addons/plugin.video.diziport/resources/images/search.png')
+        addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/plusone.png')
+        addDir(__language__(30001),'http://diziport.com/index.php?bolum=uyelik&obje=uyekayit',2,'special://home/addons/plugin.video.diziport/resources/images/all.png')
+        addDir(__language__(30004),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=belgesel',6,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
+        addDir(__language__(30007),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=asya_dizileri',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+def search():
+        keyboard = xbmc.Keyboard("", 'Search', False)
+        keyboard.doModal()
+        if keyboard.isConfirmed():
+            query = keyboard.getText()
+            print query
+            url = ('http://diziport.com/index.php?eleman=' + query + '&buton.x=19&buton.y=6&bolum=dizi&obje=diziler&olay=arama')
+            print url
+            Documentary(url)
 def RECENT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -181,15 +193,7 @@ def get_params():
 
 
 
-def addList(name,url,iconimage):
-        pl=xbmc.PlayList(1)
-        pl.clear()
-        ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name } )
-        ok=xbmc.PlayList(1).add(handle=int(sys.argv[1]),url=url, listitem=liz)
-        xbmc.Player().play(pl)
-        return ok
+
 
 def addLink(name,url,iconimage):
         ok=True
@@ -255,6 +259,9 @@ elif mode==6:
 elif mode==8:
         print ""+url
         Download(url)
+elif mode==9:
+        print ""+url
+        search()
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

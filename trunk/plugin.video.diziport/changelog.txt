@@ -1,3 +1,5 @@
+v.0.1.0
+Search Mode added
 v0.0.9
 Documenteries and asian section added
 v0.0.8
