@@ -5,9 +5,17 @@ __language__ = __settings__.getLocalizedString
 
 
 def CATEGORIES():
+        addDir(__language__(30008),'Search',6,'special://home/addons/plugin.video.diziport/resources/images/search.png')
         addDir(__language__(30000),'http://www.dizihd.com/',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30001),'http://www.dizihd.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         addDir(__language__(30007),'http://www.dizihd.com/dizi-izle/belgesel-izle/',1,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+def Search():
+        keyboard = xbmc.Keyboard("", 'Search', False)
+        keyboard.doModal()
+        if keyboard.isConfirmed():
+            query = keyboard.getText()
+            url = ('http://www.dizihd.com/?s='+ query +'&x=21&y=8')
+            RECENT(url)
 def RECENT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -64,8 +72,28 @@ def VIDEOLINKS(url):
                 response.close()
                 match=re.compile('<videoPath value="(.+?)"').findall(link)
                 for url in match:
-                        addLink(name,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
-
+                        addDir(name,url,5,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
+                        
+def Download(url):
+                filename = (url)
+                def download(url, dest):
+                                dialog = xbmcgui.DialogProgress()
+                                dialog.create('Downloading Movie','From Source', filename)
+                                urllib.urlretrieve(url, dest, lambda nb, bs, fs, url = url: _pbhook(nb, bs, fs, url, dialog))
+                def _pbhook(numblocks, blocksize, filesize, url = None,dialog = None):
+                                try:
+                                                percent = min((numblocks * blocksize * 100) / filesize, 100)
+                                                dialog.update(percent)
+                                except:
+                                                percent = 100
+                                                dialog.update(percent)
+                                if dialog.iscanceled():
+                                                dialog.close()
+                if (__settings__.getSetting('download') == ''):
+                                __settings__.openSettings('download')
+                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('download'),filename))
+                download(url, filepath)
+        
 def MAINMENU(url):
         addDir(__language__(30002),'http://diziport.com/','','special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         
@@ -154,6 +182,12 @@ elif mode==3:
 elif mode==4:
         print ""+url
         VIDEOLINKS(url)
+elif mode==5:
+        print ""+url
+        Download(url)
+elif mode==6:
+        print ""+url
+        Search()
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

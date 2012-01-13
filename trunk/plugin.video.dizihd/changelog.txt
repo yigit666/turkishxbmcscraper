@@ -1,3 +1,7 @@
+v0.0.4
+Documentaries Section added
+Search Function added
+
 v 0.0.3
 facebook link fixed
 
