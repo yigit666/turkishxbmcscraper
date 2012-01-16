@@ -66,6 +66,7 @@ def VIDEOLINKS(url):
         response.close()
 #xml okuma
         page=re.compile('xmlAddress = \'(.+?)\'').findall(link)
+        epname=re.compile('dizihd\/(.+?).xml\'').findall(link)
         #xmlAddress = 'http://www.dizihd.com/player/dizihd/supernaturals07e01hd.xml'
         for url in page:
                 req = urllib2.Request(url)
@@ -76,21 +77,10 @@ def VIDEOLINKS(url):
                 response.close()
                 #<videoPath value="http://www.dizihd.com/dizihdd.php?git=http://video.ak.fbcdn.net/cfs-ak-ash4/344221/498/112810335493302_60183.mp4"/>
                 match=re.compile('<videoPath value="(.+?)"').findall(link)
+                for url in match:
+                        for name in epname:
+                                addLink(name,url,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
                 
-    #dialog
-        dialog = xbmcgui.Dialog()
-        ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
-        if ret == 0:
-                for url in match:
-                        addLink(name,url,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
-                iscanceled = True
-                return iscanceled
-        if ret == 1:
-                for url in match:
-                        addDir(name,url,5,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
-                iscanceled = True
-                xbmc.executebuiltin('Notification("Diziport","Downloading")')
-                return iscanceled
 def Download(url):
         #rename file with end of url
         filename = name+'.mp4'
