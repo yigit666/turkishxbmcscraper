@@ -18,9 +18,9 @@ def search():
         keyboard.doModal()
         if keyboard.isConfirmed():
             query = keyboard.getText()
-            print query
+            #print query
             url = ('http://diziport.com/index.php?eleman=' + query + '&buton.x=19&buton.y=6&bolum=dizi&obje=diziler&olay=arama')
-            print url
+            #print url
             Documentary(url)
 def RECENT(url):
         req = urllib2.Request(url)
@@ -130,25 +130,34 @@ def VIDEOLINKS(name,url):
         link=response.read()
         link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)
-#dialog
+    #creating playlist
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)#this is final resolved mp4 url
+                            
+ #dialog
         dialog = xbmcgui.Dialog()
         ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
         if ret == 0:
                 for mname,url in match:
                         a = name+'-'+mname
-                        addLink(a,url,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
-                iscanceled = True
-                return iscanceled
+                        listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage='special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+                        listitem.setInfo( type="Video", infoLabels={ "Title": a } )
+                        playlist.add(url)
+                        #prepare part name & links for return after playing
+                        addLink(a,url,'')
+                        play_video(playlist)
         if ret == 1:
                 for mname,url in match:
                         a = name+'-'+mname
-                        print a
                         addDir(a,url,8,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
                 iscanceled = True
-                xbmc.executebuiltin('Notification("Diziport","Downloading")')
+                xbmc.executebuiltin('Notification("Diziport","Select&Download")')
                 return iscanceled
-
+        
+def play_video(playlist):
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
 
 def Download(url):
                 filename = (name+'.mp4')
@@ -262,6 +271,10 @@ elif mode==8:
 elif mode==9:
         print ""+url
         search()
+elif mode==10:
+        print ""+url
+        play_video(playlist)
+
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
