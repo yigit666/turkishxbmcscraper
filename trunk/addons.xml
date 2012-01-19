@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
+<addons>
 <addon id="metadata.turkcealtyazi.org"
        name="altturk"
        version="1.0.7"
@@ -40,7 +39,23 @@
   </extension>
 </addon>
 
-
+<addon id="plugin.video.diziizle"
+       name="Diziizle"
+       version="0.0.3"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos from dizi-izleyelim.com</summary>
+    <description>Most recent tv series from www.dizi-izleyelim.com</description>
+    <platform>all</platform>
+  </extension>
+</addon>
 
 <addon id="plugin.video.diziport"
        name="Diziport"
@@ -60,8 +75,49 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.sineman"
+       name="sineman"
+       version="0.0.2"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>movies from sineman.net</summary>
+    <description>Most recent movies from sineman.net</description>
+    <platform>all</platform>
+  </extension>
+</addon>
 
-<addon id="repository.drascom.xbmc-plugins" name="drascom Add-on Repository" version="1.0.1" provider-name="drascom">
+<addon id="plugin.video.sineman"
+       name="sineman"
+       version="0.0.1"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>movies from sineman.net</summary>
+    <description>Most recent movies from sineman.net</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="repository.drascom.xbmc-plugins"
+		name="drascom Add-on Repository"
+		version="1.0.1"
+		provider-name="drascom">
+	<requires>
+       <import addon="xbmc.python" version="1.0"/>
+	</requires>
 	<extension point="xbmc.addon.repository" name="drascom Add-on Repository">
 		<info compressed="false">http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml</info>
 		<checksum>http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml.md5</checksum>
