@@ -123,20 +123,18 @@ def VIDEOLINKS(name,url):
         match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
         for u1,u2 in match:
             url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
-            #print url
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
         link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
-    #creating playlist
-        #playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        #playlist.clear()
+    #creating url list for playlist
         playList = ''
-        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)#this is final resolved mp4 url
+        #this is final resolved mp4 url
+        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)
                             
- #dialog
+    #dialog let user choose watch or download...
         dialog = xbmcgui.Dialog()
         ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
         if ret == 0:
@@ -147,17 +145,16 @@ def VIDEOLINKS(name,url):
                         playList = playList + ':;'
                         listitem = xbmcgui.ListItem( name, iconImage="DefaultVideo.png", thumbnailImage='special://home/addons/plugin.video.diziport/resources/images/main.jpg')
                         listitem.setInfo( type="Video", infoLabels={ "Title": name } )
-                        #playlist.add(url)
-                        #prepare part name & links for return after playing
+                #create seperate links
                         addLink(a,partLink,'')
+                #create url1:;url2:;url3.....an send a directory to resolve and add to playlist...
                 addPlayListLink(__language__(30015),playList,12,'')
                         
         if ret == 1:
                 for mname,url in match:
                         a = name+'-'+mname
                         addDir(a,url,8,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
-                iscanceled = True
-                xbmc.executebuiltin('Notification("Diziport","Select&Download")')
+                        
 
 def PLAYLIST_VIDEOLINKS(name,url):
         ok=True
@@ -186,12 +183,23 @@ def PLAYLIST_VIDEOLINKS(name,url):
         xbmcPlayer.play(playList)
         if not xbmcPlayer.isPlayingVideo():
                 d = xbmcgui.Dialog()
-                d.ok('INVALID VIDEO PLAYLIST', 'The playlist videos were removed due to copyright issue.','Check other links.')
+                d.ok('INVALID VIDEO PLAYLIST', 'videos cannot find.','Check other links.')
         return ok
         
 
 def Download(url):
-                filename = (name+'.mp4')
+       filename = (name+'.mp4')
+       downloadFolder = __settings__.getSetting('downloadFolder')
+       print downloadFolder
+       if downloadFolder is '':
+                d = xbmcgui.Dialog()
+                d.ok('Download Error','You have not set the download folder.\n Please set the addon settings and try again.','','')
+                __settings__.openSettings(sys.argv[ 0 ])
+       else:
+                if not os.path.exists(downloadFolder):
+                        print 'Download Folder Doesnt exist. Trying to create it.'
+                        os.makedirs(downloadFolder)
+
                 def download(url, dest):
                                 dialog = xbmcgui.DialogProgress()
                                 dialog.create('Downloading Movie','From Source', filename)
@@ -205,10 +213,12 @@ def Download(url):
                                                 dialog.update(percent)
                                 if dialog.iscanceled():
                                                 dialog.close()
-                if (__settings__.getSetting('download') == ''):
-                                __settings__.openSettings('download')
-                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('download'),filename))
+                if (__settings__.getSetting('downloadFolder') == ''):
+                                __settings__.openSettings('downloadFolder')
+                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('downloadFolder'),filename))
                 download(url, filepath)
+                iscanceled = True
+                xbmc.executebuiltin('Notification("Diziport","Select&Download")')
                 
 def MAINMENU(url):
         addDir(__language__(30002),'http://diziport.com/','','special://home/addons/plugin.video.diziport/resources/images/main.jpg')
