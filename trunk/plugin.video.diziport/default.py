@@ -131,33 +131,64 @@ def VIDEOLINKS(name,url):
         link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
         response.close()
     #creating playlist
-        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playlist.clear()
+        #playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        #playlist.clear()
+        playList = ''
         match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)#this is final resolved mp4 url
                             
  #dialog
         dialog = xbmcgui.Dialog()
         ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
         if ret == 0:
-                for mname,url in match:
+                ok = True
+                for mname,partLink in match:
                         a = name+'-'+mname
-                        listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage='special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-                        listitem.setInfo( type="Video", infoLabels={ "Title": a } )
-                        playlist.add(url)
+                        playList = playList + partLink
+                        playList = playList + ':;'
+                        listitem = xbmcgui.ListItem( name, iconImage="DefaultVideo.png", thumbnailImage='special://home/addons/plugin.video.diziport/resources/images/main.jpg')
+                        listitem.setInfo( type="Video", infoLabels={ "Title": name } )
+                        #playlist.add(url)
                         #prepare part name & links for return after playing
-                        addLink(a,url,'')
-                        play_video(playlist)
+                        addLink(a,partLink,'')
+                addPlayListLink(__language__(30015),playList,12,'')
+                        
         if ret == 1:
                 for mname,url in match:
                         a = name+'-'+mname
                         addDir(a,url,8,'special://home/addons/plugin.video.diziport/resources/images/izle.png')
                 iscanceled = True
                 xbmc.executebuiltin('Notification("Diziport","Select&Download")')
-                return iscanceled
+
+def PLAYLIST_VIDEOLINKS(name,url):
+        ok=True
+        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playList.clear()
+        #time.sleep(2)
+        links = url.split(':;')
+        print links
+        pDialog = xbmcgui.DialogProgress()
+        ret = pDialog.create('Loading playlist...')
+        totalLinks = len(links)
+        loadedLinks = 0
+        remaining_display = 'Videos loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B] into XBMC player playlist.'
+        pDialog.update(0,'Please wait for the process to retrieve video link.',remaining_display)
         
-def play_video(playlist):
+        for videoLink in links:
+                playList.add(videoLink)
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                #print percent
+                remaining_display = 'Videos loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B] into XBMC player playlist.'
+                pDialog.update(percent,'Please wait for the process to retrieve video link.',remaining_display)
+                if (pDialog.iscanceled()):
+                        return False
         xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playlist)
+        xbmcPlayer.play(playList)
+        if not xbmcPlayer.isPlayingVideo():
+                d = xbmcgui.Dialog()
+                d.ok('INVALID VIDEO PLAYLIST', 'The playlist videos were removed due to copyright issue.','Check other links.')
+        return ok
+        
 
 def Download(url):
                 filename = (name+'.mp4')
@@ -201,7 +232,13 @@ def get_params():
         return param
 
 
-
+def addPlayListLink(name,url,mode,iconimage):
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
+        return ok
 
 
 def addLink(name,url,iconimage):
@@ -274,7 +311,12 @@ elif mode==9:
 elif mode==10:
         print ""+url
         play_video(playlist)
-
+elif mode==11:
+        print ""+url
+        addPlayListLink(a,url,mode,iconimage)
+elif mode==12:
+        print ""+url
+        PLAYLIST_VIDEOLINKS(name,url)
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

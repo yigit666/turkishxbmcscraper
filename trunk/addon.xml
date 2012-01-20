@@ -1,27 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="metadata.beyazperde.mynet.com"
-       name="Beyazperde"
-       version="1.0.2"
-       provider-name="drascom">
-  <requires>
-    <import addon="xbmc.metadata" version="1.0"/>
-    <import addon="metadata.common.themoviedb.org" version="1.0"/>
-    <import addon="metadata.common.movieposterdb.com" version="1.0"/>
-  </requires>
-  <extension point="xbmc.metadata.scraper.movies"
-             language="tr"
-             library="beyazperde.xml.xml"/>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">Beyazperde Movie Scraper</summary>
-    <summary lang="hu">Beyazperde filmadat leolvasó</summary>
-    <summary lang="pt">Scraper de filmes Beyazperde</summary>
-    <description lang="en">Download Movie information from www.beyazperde.mynet.com</description>
-    <description lang="hu">Film információk letöltése a www.beyazperde.mynet.com-ról</description>
-    <description lang="pt">Descarregar informação de filmes de www.beyazperde.mynet.com</description>
-    <platform>all</platform>
-  </extension>
-</addon>
+
 
 <addon id="metadata.turkcealtyazi.org"
        name="altturk"
@@ -44,23 +23,6 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.diziizle"
-       name="Diziizle"
-       version="0.0.3"
-       provider-name="drascom">
-  <requires>
-    <import addon="xbmc.python" version="1.0"/>
-	  </requires>
-  <extension point="xbmc.python.pluginsource"
-            library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary>Videos from dizi-izleyelim.com</summary>
-    <description>Most recent tv series from www.dizi-izleyelim.com</description>
-    <platform>all</platform>
-  </extension>
-</addon>
 
 <addon id="plugin.video.diziport"
        name="Diziport"
@@ -80,23 +42,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.sineman"
-       name="sineman"
-       version="0.0.1"
-       provider-name="drascom">
-  <requires>
-    <import addon="xbmc.python" version="1.0"/>
-	  </requires>
-  <extension point="xbmc.python.pluginsource"
-            library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary>movies from sineman.net</summary>
-    <description>Most recent movies from sineman.net</description>
-    <platform>all</platform>
-  </extension>
-</addon>
+
 <addon id="plugin.video.dizihd"
        name="dizihd"
        version="0.0.1"
