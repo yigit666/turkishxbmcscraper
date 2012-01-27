@@ -5,7 +5,7 @@
 		</RegExp>
 	</NfoUrl>
 	<CreateSearchUrl SearchStringEncoding="iso-8859-9" dest="3">
-		<RegExp input="$$1" output="http://www.turkcealtyazi.org/filtre.php?tur=&amp;yil=$$2&amp;ulke=&amp;sira=3&amp;altyazi=3&amp;fragman=3&amp;tip=3&amp;plimit=0&amp;olimit=0&amp;find=\1" dest="3">
+		<RegExp input="$$1" output="&lt;url&gt;http://www.turkcealtyazi.org/filtre.php?tur=&amp;yil=$$2&amp;ulke=&amp;sira=3&amp;altyazi=3&amp;fragman=3&amp;tip=3&amp;plimit=0&amp;olimit=0&amp;find=\1&lt;/url&gt;" dest="3">
 			<RegExp input="$$2" output="\1" dest="3">
 				<expression>\d+</expression>
 			</RegExp>
