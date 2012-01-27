@@ -1,3 +1,7 @@
+
+[B]1.0.8[/B]
+-plot string updated
+-orginal title removed
 [B]1.0.7[/B]
 -search string update
 
