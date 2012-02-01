@@ -20,8 +20,17 @@ def search():
             query = keyboard.getText()
             #print query
             url = ('http://diziport.com/index.php?eleman=' + query + '&buton.x=19&buton.y=6&bolum=dizi&obje=diziler&olay=arama')
-            #print url
-            Documentary(url)
+            print url
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        link=link.replace('\xf6',"o").replace('&amp;',"&").replace('\xd6',"O").replace('\xfc',"u").replace('\xdd',"I").replace('\xfd',"i").replace('\xe7',"c").replace('\xde',"s").replace('\xfe',"s").replace('\xc7',"c").replace('\xf0',"g")
+        response.close()
+        match=re.compile('<meta http-equiv="refresh" content="0; url=(.*?)">').findall(link)
+        print match
+        for url in match:
+                SESSION(url)
 def RECENT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
