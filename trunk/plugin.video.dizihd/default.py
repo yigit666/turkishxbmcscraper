@@ -5,7 +5,7 @@ __language__ = __settings__.getLocalizedString
 
 
 def CATEGORIES():
-        addDir(__language__(30008),'Search',6,'special://home/addons/plugin.video.diziport/resources/images/search.png')
+        #addDir(__language__(30008),'Search',6,'special://home/addons/plugin.video.diziport/resources/images/search.png')
         addDir(__language__(30000),'http://www.dizihd.com/',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30001),'http://www.dizihd.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         addDir(__language__(30007),'http://www.dizihd.com/dizi-izle/belgesel-izle/',1,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
@@ -14,7 +14,7 @@ def Search():
         keyboard.doModal()
         if keyboard.isConfirmed():
             query = keyboard.getText()
-            url = ('http://www.dizihd.com/?s='+ query +'&x=21&y=8')
+            url = ('http://www.dizihd.com/?s='+ query +'&x=0&y=0')
             RECENT(url)
 def RECENT(url):
         req = urllib2.Request(url)
@@ -26,6 +26,8 @@ def RECENT(url):
         MAINMENU(url)        
         match=re.compile('<a href="(.+?)"><img src="(.+?)" ></a>\r\n\t\t\t\t\t\t<h2><a href=".+?">(.+?)izle.*?</a>').findall(link)
         #http://www.dizihd.com/the-mentalist-4-sezon-11-bolum-izle
+        if match<= 0:
+                CATEGORIES()
         for url,thumbnail,name in match:
                 addDir(name,url,4,thumbnail)
         page=re.compile('<span class="current">.+?</span><a href="(.+?)" title="(.+?)">').findall(link)
@@ -66,8 +68,12 @@ def VIDEOLINKS(url):
         response.close()
 #xml okuma
         page=re.compile('xmlAddress = \'(.+?)\'').findall(link)
-        epname=re.compile('dizihd\/(.+?).xml\'').findall(link)
-        #xmlAddress = 'http://www.dizihd.com/player/dizihd/supernaturals07e01hd.xml'
+        epname= 'part'
+        a=0
+#Create playlist
+        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playList.clear()
+#xmlAddress = 'http://www.dizihd.com/player/dizihd/supernaturals07e01hd.xml'
         for url in page:
                 req = urllib2.Request(url)
                 req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -77,9 +83,14 @@ def VIDEOLINKS(url):
                 response.close()
                 #<videoPath value="http://www.dizihd.com/dizihdd.php?git=http://video.ak.fbcdn.net/cfs-ak-ash4/344221/498/112810335493302_60183.mp4"/>
                 match=re.compile('<videoPath value="(.+?)"').findall(link)
+                del match [0]
                 for url in match:
-                        for name in epname:
-                                addLink(name,url,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
+                        a= a+1
+                        name = epname + ' - '+str(a)
+                        playList.add(url)
+                        addLink(name,url,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playList)
                 
 def Download(url):
         #rename file with end of url

@@ -1,3 +1,7 @@
+v0.0.5
+search function removed
+auto play function added
+xml link fixed
 v0.0.4
 Documentaries Section added
 Search Function added
