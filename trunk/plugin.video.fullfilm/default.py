@@ -6,8 +6,8 @@ __language__ = __settings__.getLocalizedString
 
 
 def CATEGORIES():
-        #addDir(__language__(30008),'Search',6,'special://home/addons/plugin.video.tekparca/resources/images/search.png')
-        addDir(__language__(30000),'http://www.filmifullizle.com/',1,'special://home/addons/plugin.video.filmiizle/resources/images/main.png')
+        addDir(__language__(30003),'Search',3,'special://home/addons/plugin.video.fullfilm/resources/images/search.png')
+        addDir(__language__(30000),'http://www.filmifullizle.com/',1,'special://home/addons/plugin.video.fullfilm/resources/images/main.png')
         url='http://www.filmifullizle.com/'
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -25,13 +25,16 @@ def Main(url):
     response = urllib2.urlopen(req)
     link=response.read()
     response.close()
-    link=link.replace('\xc5\x9f',"s").replace('&#038;',"&").replace('\xc3\xbc',"u").replace('\xc3\xa7',"c").replace('\xc4\xb1',"i")
-    match=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?) izle"').findall(link)
-    for url,thumbnail,name in match:
+    link=link.replace('\xc5\x9f',"s").replace('&#038;',"&").replace('&#8217;',"'").replace('\xc3\xbc',"u").replace('\xc3\x87',"C").replace('\xc4\xb1',"i").replace('&#8211;',"-").replace('\xc3\xa7',"c").replace('\xc3\x96',"O").replace('\xc5\x9e',"S").replace('\xc3\xb6',"o").replace('\xc4\x9f',"g").replace('\xc4\xb0',"I").replace('\xe2\x80\x93',"-")
+    main=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
+    for url,thumbnail,name in main:
         addDir(name,url,2,thumbnail)
-    page=re.compile('<li>    <a href="(.*?)" title=".*?"><img src="(.*?)" alt="(.*?) izle " WIDTH=147 HEIGHT=205 class="guncover"/></a>\n    </li>').findall(link)
-    for url,thumbnail,name in page:
+    top=re.compile('<li>    <a href="(.*?)" title=".*?"><img src="(.*?)" alt="(.*?) izle " WIDTH=147 HEIGHT=205 class="guncover"/></a>\n    </li>').findall(link)
+    for url,thumbnail,name in top:
         addDir(name,url,2,thumbnail)
+    page=re.compile('<li class="active_page"><a href=".*?">.*?</a></li>\n<li><a href="(.*?)">(.*?)</a></li>').findall(link)
+    for url,name in page:
+        addDir(__language__(30001)+name,url,1,'')
             
 def playList(url):
         ok = True
@@ -46,7 +49,7 @@ def playList(url):
         del links [6]
         totalLinks = len(links)
         loadedLinks = 0
-        remaining_display = 'XBMC Film listesine  :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B] yuklendi..'
+        remaining_display = __language__(30004)+'[B]' +str(loadedLinks)+' / '+str(totalLinks)+'[/B]'+ __language__(30005)
         pDialog.update(0,__language__(30002),remaining_display)
         a=0
         for url in links:
@@ -64,8 +67,8 @@ def playList(url):
                         playList.add(partLink)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
-                        remaining_display = 'Videos loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B] into XBMC player playlist.'
-                        pDialog.update(percent,'Please wait for the process to retrieve video link.',remaining_display)
+                        remaining_display = __language__(30004)+'[B]' +str(loadedLinks)+' / '+str(totalLinks)+'[/B]'+ __language__(30005)
+                        pDialog.update(percent,__language__(30002),remaining_display)
                         if (pDialog.iscanceled()):
                                 return False
 
@@ -76,6 +79,13 @@ def playList(url):
                 d.ok('Video Yok', 'Calamiyorum','Geri don.')
         return ok
 
+def Search():
+        keyboard = xbmc.Keyboard("", 'Search', False)
+        keyboard.doModal()
+        if keyboard.isConfirmed():
+            query = keyboard.getText()
+            url = ('http://www.filmifullizle.com/index.php?s=' + query)
+            Main(url)
 
 def get_params():
         param=[]
@@ -146,6 +156,9 @@ elif mode==1:
 elif mode==2:
         print ""+url
         playList(url)
+elif mode==3:
+        print ""+url
+        Search()
 
 
 

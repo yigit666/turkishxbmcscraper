@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-  <string id="30000">>> Recent Episodes</string>
-  <string id="30001">>> All TV Series</string>
-  <string id="30002">>> Main List --</string>
-  <string id="30003">>> WATCH VIDEO</string>
-  <string id="30004">>> Documentaries</string>
-  <string id="30005">>> Previous Page</string>
+  <string id="30000">>> Latest Added Movies</string>
+  <string id="30001">>> Next Page No:.</string>
+  <string id="30002">>> Loading...</string>
+  <string id="30003">>> Search Movies</string>
+  <string id="30004">>> Movies Loaded</string>
+  <string id="30005">>> From Sources</string>
   <string id="30006">>>> Next Page</string>
   <string id="30007">>> Asian TV Shows</string>
   <string id="30008">What do you want to do?</string>
