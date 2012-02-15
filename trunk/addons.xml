@@ -57,6 +57,24 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.fullfilm"
+       name="Full Film"
+       version="0.0.1"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos from filmizle.com.tr</summary>
+    <description>Search, download and watch Most recent tv series from filmizle.com.tr / Tüm güncel dizileri ister izleyin ister indirin</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.jetfilm"
        name="Jetfilm by drascom"
        version="0.0.1"

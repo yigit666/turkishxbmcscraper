@@ -1,0 +1,31 @@
+v.0.1.1 
+playlist play function added
+v.0.1.0
+Search Mode added
+v0.0.9
+Documenteries and asian section added
+v0.0.8
+Download function added
+v0.0.7
+mistype regex fixed
+v0.0.6
+Link type changed
+link grabbed from playlist file
+v0.0.5
+part witout session fix bug fixed
+
+v0.0.4
+part without session fixed
+
+v 0.0.3
+facebook link fixed
+
+V 0.0.2
+Main page add
+Next page on recent movies add
+direct movie part links add
+
+Version 0.1
+ initial
+
+Version 
