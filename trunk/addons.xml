@@ -59,7 +59,7 @@
 
 <addon id="plugin.video.fullfilm"
        name="Full Film"
-       version="0.0.1"
+       version="0.0.3"
        provider-name="drascom">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -69,8 +69,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>Videos from filmizle.com.tr</summary>
-    <description>Search, download and watch Most recent tv series from filmizle.com.tr / Tüm güncel dizileri ister izleyin ister indirin</description>
+    <summary>Movies from filmifullzle.com</summary>
+    <description>Search, download and watch Most recent Movies from filmifullzle.com / Tüm güncel Filmleri ister izleyin ister indirin</description>
     <platform>all</platform>
   </extension>
 </addon>

@@ -1,5 +1,5 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmcaddon
-
+#-*- coding: cp1254 -*-
 __settings__ = xbmcaddon.Addon(id='plugin.video.fullfilm')
 __language__ = __settings__.getLocalizedString
 
@@ -28,7 +28,7 @@ def Main(url):
     response = urllib2.urlopen(req)
     link=response.read()
     response.close()
-    link=link.replace('\xc5\x9f',"s").replace('&#038;',"&").replace('&#8217;',"'").replace('\xc3\xbc',"u").replace('\xc3\x87',"C").replace('\xc4\xb1',"i").replace('&#8211;',"-").replace('\xc3\xa7',"c").replace('\xc3\x96',"O").replace('\xc5\x9e',"S").replace('\xc3\xb6',"o").replace('\xc4\x9f',"g").replace('\xc4\xb0',"I").replace('\xe2\x80\x93',"-")
+    link=link.replace('\xc5\x9f',"s").replace('&#038;',"&").replace('&#8217;',"'").replace('\xc3\xbc',"u").replace('\xc3\x87',"C").replace('\xc4\xb1',"ý").replace('&#8211;',"-").replace('\xc3\xa7',"c").replace('\xc3\x96',"O").replace('\xc5\x9e',"S").replace('\xc3\xb6',"o").replace('\xc4\x9f',"g").replace('\xc4\xb0',"I").replace('\xe2\x80\x93',"-")
     main=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
     for url,thumbnail,name in main:
         addDir(name,url,2,thumbnail)
