@@ -8,6 +8,9 @@ __language__ = __settings__.getLocalizedString
 def CATEGORIES():
         addDir(__language__(30003),'Search',3,'special://home/addons/plugin.video.fullfilm/resources/images/search.png')
         addDir(__language__(30000),'http://www.filmifullizle.com/',1,'special://home/addons/plugin.video.fullfilm/resources/images/main.png')
+        addDir(__language__(30006),'http://www.filmifullizle.com/kategori/filmler/yerli-filmler',1,'special://home/addons/plugin.video.fullfilm/resources/images/tag.png')
+        addDir(__language__(30007),'http://www.filmifullizle.com/kategori/filmler/yabanci-filmler',1,'special://home/addons/plugin.video.fullfilm/resources/images/eye.png')
+        addDir(__language__(30008),'http://www.filmifullizle.com/kategori/filmler/yabanci-filmler/turkce-dublaj',1,'special://home/addons/plugin.video.fullfilm/resources/images/star.png')
         url='http://www.filmifullizle.com/'
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -16,7 +19,7 @@ def CATEGORIES():
         response.close()
         match=re.compile('<li class=".*?"><a href="(.*?)" title=".*?">(.*?)</a>\n</li>').findall(link)
         for url,name in match:
-                addDir(name,url,1,'')
+                addDir('>> '+name,url,1,'')
 
 
 def Main(url):
