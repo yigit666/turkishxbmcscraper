@@ -41,7 +41,7 @@
 
 <addon id="plugin.video.diziport"
        name="Diziport"
-       version="0.1.3"
+       version="0.1.4"
        provider-name="drascom">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
