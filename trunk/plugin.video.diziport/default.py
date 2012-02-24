@@ -11,7 +11,7 @@ def CATEGORIES():
         addDir(__language__(30011),'search',9,'special://home/addons/plugin.video.diziport/resources/images/search.png')
         addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/plusone.png')
         addDir(__language__(30001),'http://diziport.com/',2,'special://home/addons/plugin.video.diziport/resources/images/all.png')
-        addDir(__language__(300012),'http://diziport.com/index.php?bolum=dizi&obje=en_cok_izlenenler',1,'special://home/addons/plugin.video.diziport/resources/images/all.png')
+        addDir(__language__(30012),'http://diziport.com/index.php?bolum=dizi&obje=en_cok_izlenenler',1,'special://home/addons/plugin.video.diziport/resources/images/all.png')
         addDir(__language__(30004),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=belgesel',6,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30007),'http://diziport.com/index.php?bolum=dizi&obje=diziler&tip=asya_dizileri',6,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
 def search():
