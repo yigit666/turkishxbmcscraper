@@ -39,6 +39,25 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.diziperde"
+       name="Dizi-Perde"
+       version="0.0.1"
+       provider-name="drascom_xmaxell">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos from diziperdem.com</summary>
+    <description>Watch, Search Most recent tv series,Documentaries from diziperdem.com</description>
+    <description>bu plugin default py dosyası pluginin nasıl yazıldığını anlatan bilgiler içerir."xmaxell" adlı kullanıcını yardımları ile hazırlanmıştır.</description>
+	<platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.diziport"
        name="Diziport"
        version="0.1.4"
