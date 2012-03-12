@@ -112,26 +112,6 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.xbmcTR"
-       name="xbmcTR"
-       version="0.1.0"
-       provider-name="drascom & xmaxell">
-  <requires>
-    <import addon="xbmc.python" version="1.0"/>
-	<import addon="script.module.beautifulsoup" version="3.0.8"/>
-    <import addon="script.module.simplejson" />
-  </requires>
-  <extension point="xbmc.python.pluginsource"
-            library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary>xbmc Turkish Pack</summary>
-    <description>Watch Movies, Tv shows, Live Channels in Turkish and English.All inclusive</description>
-    <platform>all</platform>
-  </extension>
-</addon>
-
 <addon id="repository.drascom.xbmc-plugins"
 		name="drascom Add-on Repository"
 		version="1.0.1"
