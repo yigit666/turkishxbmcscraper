@@ -1,0 +1,15 @@
+#Play a single youtube video
+def play_youtube_video(video_id, name):
+	print ("Playing video " + name + " id: " + video_id)
+	url = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % (video_id)
+	listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ), path=url )
+	infolabels = { "title": name, "plot": name}
+	listitem.setInfo( type="Video", infoLabels=infolabels)
+	xbmc.Player( xbmc.PLAYER_CORE_DVDPLAYER ).play( str(url), listitem)
+		
+#Play a single song	
+def play_stream(url, name):
+	print "playing audio file. name: " + name + " url: " + url
+	listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ), path=url )
+	listitem.setInfo( type="video", infoLabels={ "Title": name, "Plot" : name } )
+	xbmc.Player( xbmc.PLAYER_CORE_DVDPLAYER ).play( str(url), listitem)
