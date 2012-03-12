@@ -112,7 +112,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.diziport"
+<addon id="plugin.video.xbmcTR"
        name="xbmcTR"
        version="0.1.0"
        provider-name="drascom">
@@ -124,8 +124,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>Videos from diziport.com</summary>
-    <description>Search, download and watch Most recent tv series from diziport.com / Tüm güncel dizileri ister izleyin ister indirin</description>
+    <summary>XBMC Turkish Pack</summary>
+    <description>Live TV, Movies, Tv Shows All inclusive</description>
     <platform>all</platform>
   </extension>
 </addon>
