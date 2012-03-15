@@ -1,11 +1,11 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmcaddon
-
+# -*- coding: cp1254 -*-
 __settings__ = xbmcaddon.Addon(id='plugin.video.dizihd')
 __language__ = __settings__.getLocalizedString
 
 
 def CATEGORIES():
-        #addDir(__language__(30008),'Search',6,'special://home/addons/plugin.video.diziport/resources/images/search.png')
+        addDir('Tum eklentiler ve daha fazlasý -- xbmcTR.com--','Search',6,'special://home/addons/plugin.video.diziport/resources/images/search.png')
         addDir(__language__(30000),'http://www.dizihd.com/',1,'special://home/addons/plugin.video.diziport/resources/images/yeni.png')
         addDir(__language__(30001),'http://www.dizihd.com/',2,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         addDir(__language__(30007),'http://www.dizihd.com/dizi-izle/belgesel-izle/',1,'special://home/addons/plugin.video.diziport/resources/images/main.jpg')

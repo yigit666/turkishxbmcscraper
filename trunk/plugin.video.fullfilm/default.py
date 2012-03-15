@@ -6,6 +6,7 @@ __language__ = __settings__.getLocalizedString
 
 
 def CATEGORIES():
+        addDir('Tum eklentiler ve daha fazlasý -- xbmcTr.com---','Search',3,'special://home/addons/plugin.video.fullfilm/resources/images/search.png')
         addDir(__language__(30003),'Search',3,'special://home/addons/plugin.video.fullfilm/resources/images/search.png')
         addDir(__language__(30000),'http://www.filmifullizle.com/',1,'special://home/addons/plugin.video.fullfilm/resources/images/main.png')
         addDir(__language__(30006),'http://www.filmifullizle.com/kategori/filmler/yerli-filmler',1,'special://home/addons/plugin.video.fullfilm/resources/images/tag.png')

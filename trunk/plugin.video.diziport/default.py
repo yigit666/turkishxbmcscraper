@@ -8,6 +8,7 @@ __language__ = __settings__.getLocalizedString
 
             
 def CATEGORIES():
+        addDir('Tum eklentiler ve daha fazlasý -- xbmcTR.com--','Search',3,'')
         addDir(__language__(30011),'search',9,'special://home/addons/plugin.video.diziport/resources/images/search.png')
         addDir(__language__(30000),'http://diziport.com/index.php?bolum=dizi&obje=default&sayfa=0',1,'special://home/addons/plugin.video.diziport/resources/images/plusone.png')
         addDir(__language__(30001),'http://diziport.com/',2,'special://home/addons/plugin.video.diziport/resources/images/all.png')
