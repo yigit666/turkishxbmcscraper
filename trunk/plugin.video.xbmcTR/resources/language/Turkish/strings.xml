@@ -6,12 +6,16 @@
   <string id="30003">>> Video IZLE</string>
   <string id="30004">>> Belgesel</string>
   <string id="30005">>> Onceki Sayfa</string>
-  <string id="30006">>>> Sonraki Sayfa</string>
+  <string id="30006">>>> Sonraki Sayfa No:</string>
   <string id="30007">>> Asya Dizileri</string>
-  <string id="30008">Ne Yapmak İstersiniz?</string>
-  <string id="30009">Online İzle.</string>
-  <string id="30010">Klasöre İndir!</string>
-  <string id="30011">>> Dizi Ara</string>
+  <string id="30008">Ne Yapmak istersiniz?</string>
+  <string id="30009">Online Izle.</string>
+  <string id="30010">Klasöre Indir!</string>
+  <string id="30011">>> ARAMA</string>
   <string id="30012">>> Populer Diziler</string>
   <string id="30015"> ---- SERI OLARAK OYNAT ---- </string>
+  <string id="30020">>> YENI Filmler</string>
+  <string id="30021">>> YERLI Filmler</string>
+  <string id="30022">>> YABANCI Filmler</string>
+  <string id="30023">>> Turkce Dublaj</string>
 </strings>

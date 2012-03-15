@@ -28,7 +28,6 @@ if os.path.exists(source_file)==True:
     SOURCES = open(source_file).read()
 
 def Main_List():
-    dizi_addDir('TUM EKLENTILER VE DAHA FAZLASI ICIN xbmcTR.com','http://diziport.com',10,'')
     dizi_addDir('Diziler','http://diziport.com',10,'')
     dizi_addDir('Canlı TV','http://diziport.com',1,'')
     dizi_addDir('Sinema','http://www.filmifullizle.com/',21,'')

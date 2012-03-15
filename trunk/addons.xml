@@ -114,10 +114,12 @@
 
 <addon id="plugin.video.xbmcTR"
        name="xbmcTR"
-       version="0.1.1"
-       provider-name="drascom">
+       version="0.1.2"
+       provider-name="drascom & maxell">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.0.8"/>
+    <import addon="script.module.simplejson" />
 	  </requires>
   <extension point="xbmc.python.pluginsource"
             library="default.py">
@@ -125,7 +127,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>Videos from xbmcTR.com</summary>
-    <description>Search, download and watch Most recent tv series from xbmcTR / Tüm güncel dizileri ister izleyin ister indirin</description>
+    <description>xbmcTR.co sunar..Canlı yayın, Diziler , Sİnema Filmeri Hepsi elinizin altında</description>
     <platform>all</platform>
   </extension>
 </addon>
