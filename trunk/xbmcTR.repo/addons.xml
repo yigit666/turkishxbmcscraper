@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.drascom.xbmc-plugins" name="drascom Add-on Repository" version="1.0.1" provider-name="drascom">
+<addon id="xbmcTR.repo" name="xbmcTR Add-on Repository" version="1.0.2" provider-name="drascom">
 	<extension point="xbmc.addon.repository" name="drascom Add-on Repository">
 		<info compressed="false">http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml</info>
 		<checksum>http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml.md5</checksum>
 		<datadir zip="false">http://turkishxbmcscraper.googlecode.com/svn/trunk/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install Add-ons from drascom Add-on Repository</summary>
+		<summary>Install Add-ons from xbmcTR Add-on Repository</summary>
 		<description>Video plug-ins and Movie info scrapers for XBMC</description>
 		<disclaimer></disclaimer>
 		<platform>all</platform>

@@ -120,7 +120,7 @@
     <import addon="xbmc.python" version="1.0"/>
     <import addon="script.module.beautifulsoup" version="3.0.8"/>
     <import addon="script.module.simplejson" />
-	  </requires>
+  </requires>
   <extension point="xbmc.python.pluginsource"
             library="default.py">
         <provides>video</provides>
@@ -132,9 +132,9 @@
   </extension>
 </addon>
 
-<addon id="repository.drascom.xbmc-plugins"
-		name="drascom Add-on Repository"
-		version="1.0.1"
+<addon id="xbmcTR.repo"
+		name="xbmcTR Team Add-on Repository"
+		version="1.0.2"
 		provider-name="drascom">
 	<requires>
        <import addon="xbmc.python" version="1.0"/>
@@ -145,7 +145,7 @@
 		<datadir zip="false">http://turkishxbmcscraper.googlecode.com/svn/trunk/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install Add-ons from drascom Add-on Repository</summary>
+		<summary>Install Add-ons from xbmcTR Add-on Repository</summary>
 		<description>Video plug-ins and Movie info scrapers for XBMC</description>
 		<disclaimer></disclaimer>
 		<platform>all</platform>
