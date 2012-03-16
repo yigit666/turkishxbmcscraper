@@ -133,8 +133,8 @@
 </addon>
 
 <addon id="xbmcTR.repo"
-		name="xbmcTR Team Add-on Repository"
-		version="1.0.2"
+		name="xbmcTR Addons-Eklenti Deposu"
+		version="1.0.5"
 		provider-name="drascom">
 	<requires>
        <import addon="xbmc.python" version="1.0"/>
