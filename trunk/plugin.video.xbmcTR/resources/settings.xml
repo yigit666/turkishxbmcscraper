@@ -1,3 +1,0 @@
-<settings>
-  <setting id="downloadFolder" type="folder" source="files" label="Download Location"  option="writeable" default=""/>
-</settings>
