@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.xbmcTR"
+       name="TR Media Center"
+       version="0.1.3"
+       provider-name="drascom">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+<import addon="script.module.beautifulsoup" version="3.0.8"/>
+<import addon="script.module.simplejson" />
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos from diziport.com</summary>
+    <description>xbmcTR.com sunar..Canlı yayın, Diziler , Sİnema Filmeri Hepsi elinizin altında</description>
+    <platform>all</platform>
+  </extension>
+</addon>
