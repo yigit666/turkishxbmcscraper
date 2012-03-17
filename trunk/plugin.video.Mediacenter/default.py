@@ -13,9 +13,9 @@ try:
 except:
     import simplejson as json
 
-addon = xbmcaddon.Addon('plugin.video.xbmcTR')
+addon = xbmcaddon.Addon('plugin.video.Mediacenter')
 profile = xbmc.translatePath(addon.getAddonInfo('profile'))
-__settings__ = xbmcaddon.Addon(id='plugin.video.xbmcTR')
+__settings__ = xbmcaddon.Addon(id='plugin.video.Mediacenter')
 __language__ = __settings__.getLocalizedString
 home = __settings__.getAddonInfo('path')
 favorites = os.path.join( profile, 'favorites' )
