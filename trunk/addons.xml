@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon
+	id="plugin.video.xbmctr"
+	version="0.2.0.5"
+	name="xbmcTR Media Center"
+	provider-name="xbmctr.com">
+<requires>
+	<import addon="xbmc.python" version="1.0"/>
+</requires>
+<extension point="xbmc.python.pluginsource"
+		library="multiDocs.py">
+	<provides>video</provides>
+</extension>
+<extension point="xbmc.addon.metadata">
+	<platform>all</platform>
+	<summary>Turkish Media Center</summary>
+	<description>biggest turkish media sources.</description>
+</extension>
+</addon>
+
 <addon id="repository.drascom.xbmc-plugins" name="drascom addon Deposu" version="1.0.2" provider-name="drascom">
 	<extension point="xbmc.addon.repository" name="drascom Add-on Repository">
 		<info compressed="false">http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml</info>
