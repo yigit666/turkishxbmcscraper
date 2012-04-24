@@ -36,16 +36,16 @@ def Search():
         link=xbmctools.get_url(url)  
         match=re.compile('<a href="(.*?)"><img src="(.*?)"  alt="(.*?)"').findall(link)
         for url,thumbnail,name in match:
-                xbmctools.addFolder(FILENAME,name, "scraper.klip(url)",url)
+                xbmctools.addFolder("scraper",name, "prepare_list(videoTitle,url)",url)
 def Recent(url):
         link=xbmctools.get_url(url)    
         match=re.compile('<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
         ##
         for url,thumbnail,name in match:
-                xbmctools.addFolder(FILENAME,name, "scraper.klip(url)",url,thumbnail)
+                xbmctools.addFolder("scraper",name, "prepare_list(videoTitle,url)",url,thumbnail)
         page=re.compile('erzu').findall(link)
         for url,name in page:
-                addDir(__language__(30006)+' >> '+name,url,1,'special://home/addons/plugin.video.dizihome/resources/images/next.png')
+                addDir(__language__(30006)+' >> '+name,url,1,'')
     
 def Categories(url):
         link=xbmctools.get_url(url)
@@ -66,14 +66,14 @@ def Popular(url):
         link=xbmctools.get_url(url)
         match=re.compile('<a href="(.*?)"><span class="imag"><img src="(.*?)" alt="(.*?)"  width="128" height="72" /></span>').findall(link)
         for url,thumbnail,name in match:
-                xbmctools.addFolder(FILENAME,name, "scraper.klip(url)",url,thumbnail)
+                xbmctools.addFolder("scraper",name, "prepare_list(videoTitle,url)",url,thumbnail)
     
         MAINMENU(url)
 def Blog_view(url):
         link=xbmctools.get_url(url)
         match=re.compile('<a href="(.*?)" class="video-resim-wrap" title=".*?"><span class="video-resim kucuk-resim-80"><span class="clip"><img src="(.*?)"  width="80" height="45" alt="(.*?)"').findall(link)
         for url,thumbnail,name in match:
-                xbmctools.addFolder(FILENAME,name, "scraper.klip(url)",url,thumbnail)
+                xbmctools.addFolder("scraper",name, "prepare_list(videoTitle,url)",url,thumbnail)
         MAINMENU(url)       
                 
 

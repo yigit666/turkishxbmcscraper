@@ -40,7 +40,7 @@ def RECENT(url):
         link=xbmctools.get_url(url)       
         match=re.compile('<img src="(.+?)" alt=".+?" width="113" height="113" align="center" /></a>\n\t<h1 class="yellow"><a href="(.+?)" title="(.+?)">').findall(link)
         for thumbnail,url,videoTitle in match:
-                xbmctools.addFolder(FILENAME,videoTitle,"scraper.Diziport(videoTitle,url)",url,'http://diziport.com/'+thumbnail)
+                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",url,'http://diziport.com/'+thumbnail)
                 
         #next page        
         page=re.compile('class=\'current\'><a><b>.+?</b></a></li>\n<li><a href=\'(.+?)\' rel=\'nofollow\'><b>(.+?)</b></a></li>').findall(link)
@@ -69,8 +69,8 @@ def Session(url):
                 match=re.compile('src="(.+?)" alt="" width="113" height="113" align="center"  />\n<a href="(.+?)" title="(.+?)"').findall(link)
                 if match>[1]:
                         print 'sezonlu'
-                        for thumbnail,url,name in match:
-                                xbmctools.addFolder(FILENAME,name, "Episodes(url)", 'http://diziport.com/'+url)
+                        for thumbnail,url,videoTitle in match:
+                                xbmctools.addFolder(FILENAME,videoTitle, "Episodes(url)", 'http://diziport.com/'+url)
                 else:
                         print 'sezonsuz','--------------url------------',url
                         link=xbmctools.get_url(url)
@@ -88,41 +88,9 @@ def Episodes(url):
         link=xbmctools.get_url(url)
         match=re.compile('<a href="(.+?)"><img src="(.+?)" alt="(.+?)"').findall(link)
         for url,thumbnail,videoTitle in match:
-            xbmctools.addFolder(FILENAME,videoTitle, "scraper.Diziport(videoTitle,url)", 'http://diziport.com/'+url)        
+            xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)", 'http://diziport.com/'+url)        
 
-def Download(url):
-       filename = (name+'.mp4')
-       downloadFolder = __settings__.getSetting('downloadFolder')
-       print downloadFolder
-       if downloadFolder is '':
-                d = xbmcgui.Dialog()
-                d.ok('Download Error','You have not set the download folder.\n Please set the addon settings and try again.','','')
-                __settings__.openSettings(sys.argv[ 0 ])
-       else:
-                if not os.path.exists(downloadFolder):
-                        print 'Download Folder Doesnt exist. Trying to create it.'
-                        os.makedirs(downloadFolder)
 
-                def download(url, dest):
-                                dialog = xbmcgui.DialogProgress()
-                                dialog.create('Downloading Movie','From Source', filename)
-                                urllib.urlretrieve(url, dest, lambda nb, bs, fs, url = url: _pbhook(nb, bs, fs, url, dialog))
-                def _pbhook(numblocks, blocksize, filesize, url = None,dialog = None):
-                                try:
-                                                percent = min((numblocks * blocksize * 100) / filesize, 100)
-                                                dialog.update(percent)
-                                except:
-                                                percent = 100
-                                                dialog.update(percent)
-                                if dialog.iscanceled():
-                                                dialog.close()
-                if (__settings__.getSetting('downloadFolder') == ''):
-                                __settings__.openSettings('downloadFolder')
-                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('downloadFolder'),filename))
-                download(url, filepath)
-                iscanceled = True
-                xbmc.executebuiltin('Notification("Diziport","Select&Download")')
-                
 def MAINMENU(url):
         xbmctools.addDir(__language__(30002),'http://diziport.com/','','special://home/addons/plugin.video.diziport/resources/images/main.jpg')
         

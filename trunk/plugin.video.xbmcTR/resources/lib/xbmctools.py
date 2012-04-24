@@ -27,11 +27,32 @@ import sys,re
 import os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import helper
+import clean_dirs
+
 site='http://drascom.dyndns.org/site/'
-site2='http://192.168.0.52/site'
-Addon = xbmcaddon.Addon('plugin.video.xbmcTR')
+site2='http://192.168.0.52/site/'
+Addon = xbmcaddon.Addon('plugin.video.xbmctr')
+
+addon_id = 'plugin.video.xbmctr'
+selfAddon = xbmcaddon.Addon(id=addon_id)
+addon_path = selfAddon.getAddonInfo('path')
+downloadFolder = selfAddon.getSetting('downloadFolder')
+__language__ =selfAddon.getLocalizedString
+
+
+#Auto-watch
+currentTime = 1
+totalTime = 0
+
+
+#Variable for multi-part
+finalPart = True
+
 # Get the system path to where the thumbnail images are stored-
 IMAGES_PATH = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resources', 'images'))
+
+################################################################################
+
 def setUrl():
         url=site+'sys.html'
         link=get_url(url)
@@ -56,17 +77,12 @@ def get_url(url):
         response.close()
         return link
 
-def addFolder(FILENAME, name, method, url="", thumbnail=""):
-    u = sys.argv[0]+"?fileName="+urllib.quote_plus(FILENAME)+"&method="+urllib.quote_plus(method)+"&url="+urllib.quote_plus(url)
-    liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
-    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
-    
-
-def addVideoFolder(FILENAME, videoTitle, url, method, thumbnail, info):
+def addFolder(FILENAME, videoTitle, method, url="", thumbnail="",info=""):
     u = sys.argv[0]+"?fileName="+urllib.quote_plus(FILENAME)+"&videoTitle="+urllib.quote_plus(videoTitle)+"&method="+urllib.quote_plus(method)+"&url="+urllib.quote_plus(url)
     liz = xbmcgui.ListItem(videoTitle, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
-    liz.setInfo(type="Video", infoLabels=info)
+    #liz.setInfo(type="Video", infoLabels=info)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
+    
 
 def addVideoLink(linkTitle, url, thumbnail=""):
     liz = xbmcgui.ListItem(linkTitle, iconImage="DefaultVideo.png", thumbnailImage=thumbnail)
@@ -95,4 +111,73 @@ def addDir(name,url,mode,iconimage):
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
+
+def openfile(filename):
+     fh = open(filename, 'r')
+     contents=fh.read()
+     fh.close()
+     return contents
+
+def save(filename,contents):  
+     fh = open(filename, 'w')
+     fh.write(contents)  
+     fh.close()
+
+def appendfile(filename,contents):  
+     fh = open(filename, 'a')
+     fh.write(contents)  
+     fh.close()
+
+def stage(videoTitle,links):
+        nameCount=0
+        subfolder=os.path.join(downloadFolder,str(videoTitle))
+        os.makedirs(subfolder)
+        for videoLink in links:
+            name='Part'
+            nameCount=nameCount+1
+            name= name+' '+str(nameCount)
+            filename = (videoTitle+' '+name+'.mp4')
+            filepath = xbmc.translatePath(os.path.join(subfolder,filename))
+            def download(url, dest):
+                    #dialog = xbmcgui.DialogProgress()
+                    #dialog.create('Downloading Movie','From Source', filename)
+                    urllib.urlretrieve(url, dest, lambda nb, bs, fs, url = url: _pbhook(nb, bs, fs, url,''))
+            def _pbhook(numblocks, blocksize, filesize, url = None,dialog = None):
+                    try:
+                        
+                        percent = min((numblocks * blocksize * 100) / filesize, 100)
+                        #dialog.update(percent)
+                    except:
+                        percent = 100
+                        #dialog.update(percent)
+                    #if dialog.iscanceled():
+                                    #dialog.close()
+            download(videoLink, filepath)
+            iscanceled = True
+            xbmc.executebuiltin('Notification("Media Center","part Complete")')
+                
+def Download(videoTitle,url,genre,section):        
+        if downloadFolder is '':
+                d = xbmcgui.Dialog()
+                d.ok('Download Error','You have not set the download folder.\n Please set the addon settings and try again.','','')
+                selfAddon.openSettings(sys.argv[ 0 ])
+        else:
+                if not os.path.exists(downloadFolder):
+                        print 'Download Folder Doesnt exist. Trying to create it.'
+                        os.makedirs(downloadFolder)
+
+########prepare video link both page system and xml system'''
+        
+        links = url.split(':;')
+        del links [-1]
+        if section=='page':
+                for pageLink in links:
+                    link=get_url(pageLink)
+                    links=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)
+                    stage(videoTitle,links)        
+        if section=='xml':
+                stage(videoTitle,links)
+                
+        xbmc.executebuiltin('Notification("Media Center","Download Complete")')
+
 

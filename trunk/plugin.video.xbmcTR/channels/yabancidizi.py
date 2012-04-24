@@ -3,8 +3,8 @@ import xbmcplugin,xbmcgui,xbmcaddon,xbmc
 import scraper, xbmctools, helper
 
 # -*- coding: iso-8859-9 -*-
-Addon = xbmcaddon.Addon('plugin.video.xbmcTR')
-__settings__ = xbmcaddon.Addon(id='plugin.video.xbmcTR')
+Addon = xbmcaddon.Addon('plugin.video.xbmctr')
+__settings__ = xbmcaddon.Addon(id='plugin.video.xbmctr')
 __language__ = __settings__.getLocalizedString
 
 
@@ -43,7 +43,7 @@ def RECENT(url):
         link=xbmctools.get_url(url)       
         match=re.compile('<a href="(.*?)" title=".*?" class="img"><img src="(.*?)" alt="(.*?)"').findall(link)
         for url,thumbnail,videoTitle in match:
-                xbmctools.addFolder(FILENAME,videoTitle,"scraper.yabancidizi(videoTitle,url)",'http://yabancidiziizle.com'+url,thumbnail)
+                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",'http://yabancidiziizle.com'+url,thumbnail)
                 
         #next page        
         page=re.compile('class="aktif">.*?</a><a href="(.*?)">(.*?)</a>').findall(link)
@@ -62,7 +62,7 @@ def Episodes(url):
         match=re.compile('<a href="(.*?)" title=".*?" class="img"><img src="(.*?)" alt="(.*?)"').findall(link)
         print match,'___________________--------------------------'
         for url,thumbnail,videoTitle in match:
-            xbmctools.addFolder(FILENAME,videoTitle, "scraper.yabancidizi(videoTitle,url)", 'http://yabancidiziizle.com/'+url)        
+            xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)", 'http://yabancidiziizle.com/'+url)        
 
 
                 

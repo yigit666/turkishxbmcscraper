@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon
-	id="plugin.video.xbmctr"
-	version="0.2.0.5"
-	name="xbmcTR Media Center"
-	provider-name="xbmctr.com">
-<requires>
-	<import addon="xbmc.python" version="1.0"/>
-</requires>
-<extension point="xbmc.python.pluginsource"
-		library="multiDocs.py">
-	<provides>video</provides>
-</extension>
-<extension point="xbmc.addon.metadata">
-	<platform>all</platform>
-	<summary>Turkish Media Center</summary>
-	<description>biggest turkish media sources.</description>
-</extension>
+<addon id="plugin.video.xbmctr"
+       name="xbmcTR Media Center"
+       version="0.2.0.7"
+       provider-name="xbmcTR TEAM">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+<import addon="script.module.beautifulsoup" version="3.0.8"/>
+<import addon="script.module.simplejson" />
+	  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos Live TV Tvshows from many turkish sources</summary>
+    <description>xbmcTR.com sunar..Canlı yayın, Diziler , Sİnema Filmeri Hepsi elinizin altında</description>
+    <platform>all</platform>
+  </extension>
 </addon>
 
 <addon id="repository.drascom.xbmc-plugins" name="drascom addon Deposu" version="1.0.2" provider-name="drascom">

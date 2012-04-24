@@ -1,8 +1,6 @@
 <settings>
-   <setting id="downloadFolder" type="folder" source="files" label="Download Location"  option="writeable" default=""/>
-	<category label="VeeHD">
-		<setting id="uname" label="30000" type="text" default=""/>
-		<setting id="pwd"   label="30001" type="text" option="hidden" default=""/>
+   <category label="Genel">
+		<setting id="downloadFolder" type="folder" source="files" label="Download Location"  option="writeable" default=""/>
 	</category>
 	<category label="YouTube">
 		<setting id="quality" label="Preferred Video Quality" type="enum" default="0" lvalues="30020|30021|30022|30023"/>

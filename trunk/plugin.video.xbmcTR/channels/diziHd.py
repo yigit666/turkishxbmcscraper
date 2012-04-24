@@ -31,10 +31,9 @@ def RECENT(url):
         MAINMENU(url)
         link=xbmctools.get_url(url)      
         match=re.compile('<a href="(.+?)"><img src="(.+?)" ></a>\r\n\t\t\t\t\t\t<h2><a href=".+?">(.+?)izle.*?</a>').findall(link)
-        if match<= 0:
-                Main()
+
         for url,thumbnail,videoTitle in match:
-                xbmctools.addFolder(FILENAME,videoTitle,"scraper.Dizihd(videoTitle,url)",url,thumbnail)
+                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",url,thumbnail)
 '''        page=re.compile('<span class="current">.+?</span><a href="(.+?)" title="(.+?)">').findall(link)
         for url,name in page:
                 xbmctools.addFolder('', name, "RECENT(url)",url,'')
@@ -53,7 +52,7 @@ def Session(url):
         link=xbmctools.get_url(url)
         match=re.compile('<a href="(.+?)"><img src="(.+?)" ></a>\r\n\t\t\t\t\t\t<h2><a href=".+?">(.+?)izle.*?</a>').findall(link)
         for url,thumbnail,videoTitle in match:
-               xbmctools.addFolder(FILENAME,videoTitle,"scraper.Dizihd(videoTitle,url)",url,thumbnail)
+               xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",url,thumbnail)
 
              
 

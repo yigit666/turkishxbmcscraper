@@ -20,190 +20,158 @@ Editor: drascom
 Date: 13/04/2012
 '''
 
-
+# -*- coding: iso-8859-9 -*-
 import urllib, urllib2, re, sys, cookielib
 import xbmc, xbmcaddon, xbmcgui
 import xbmctools
 
 
-__settings__ = xbmcaddon.Addon(id='plugin.video.multidocs')
+__settings__ = xbmcaddon.Addon(id='plugin.video.xbmctr')
 __language__ = __settings__.getLocalizedString
 
 
 FILENAME = "scraper"
 
 #Used to allow the user to select quality on youtube videos
-addonSettings = xbmcaddon.Addon(id='plugin.video.multidocs')
+addonSettings = xbmcaddon.Addon(id='plugin.video.xbmctr')
 videoQuality = ['small','medium','large','hd720']
 
-def Diziport(name,url):
+
+
+'''Constants'''
+xbmcPlayer = xbmc.Player()
+playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+
+
+
+def prepare_list(videoTitle,url):
         link=xbmctools.get_url(url)
-        match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
-        for u1,u2 in match:
-            url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
-        link=xbmctools.get_url(url)
-    #creating url list for playlist
-        partLinks = ''
-        #this is final resolved mp4 url
-        match=re.compile('<title>(.*?)</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(link)
-                            
-    #dialog let user choose watch or download...
+        '----------------------------'
+        if url.startswith('http://diziport.com'):
+                match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
+                for u1,u2 in match:
+                        url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
+                        print url,'------------diziport xml link----------'
+                xmlScan=xbmctools.get_url(url)
+                match=re.compile('<title>.*?</title>\n\t  <jwplayer:file>(.*?)</jwplayer:file>').findall(xmlScan)
+                build_from_xml(videoTitle,match,'tvshow')
+        else:
+                pass
+        '----------------------------'
+        if url.startswith('http://yabancidiziizle.com'):
+                match=re.compile('{ file: "(.*?)" }').findall(link)
+                build_from_xml(videoTitle,match,'tvshow')
+        else:
+                pass
+        '----------------------------'
+        if url.startswith('http://www.dizihd.com'):
+                match=re.compile('xmlAddress = \'(.+?)\'').findall(link)
+                if len (match)<= 0:
+                        vk=re.compile('<iframe src="(.*?)"').findall(link)
+                        for url in vk:
+                                link=xbmctools.get_url(url)
+                                scan=re.compile('video_host = \'(.*?)/\';\nvar video_uid = \'(.*?)\';\nvar video_vtag = \'(.*?)\'').findall(link)
+                                for a,b,c in scan:
+                                      #http://cs505211.userapi.com/u144315788/video/f879d60fb3.360.mp4
+                                      result=a +'/u'+ b +'/video/' + c + '.360.mp4'
+                                xbmctools.addVideoLink(videoTitle,result,'')
+                                return False
+                else:
+                        for xml in match:
+                                xmlScan=xbmctools.get_url(xml)
+                                match=re.compile('v=(.+?)"').findall(xmlScan)
+                                print match,'***************************'
+                                if match<=2:
+                                        for code in match:
+                                                youtube='plugin://plugin.video.youtube/?action=play_video&videoid=' + code
+                                                xbmctools.addVideoLink(videoTitle,youtube,'')
+                                                return False
+                                else:
+                                        match=re.compile('<videoPath value="(.+?)"').findall(xmlScan)                                                          
+                print match,'------------------------------------------------'
+                build_from_xml(videoTitle,match,'tvshow')
+        '----------------------------'
+        if url.startswith('http://www.filmifullizle.com'):
+                match=re.compile('<a href="(.*?)">Bolum .*?</a>').findall(link)
+                build_from_page(videoTitle,url,match,'movie')
+        else:
+                pass
+
+        '----------------------------'
+        if url.startswith('http://video-klipleri.org/'):
+                print 'Klip Source -----------------------'
+                match=re.compile('http://player.iyimix.com/config/(.*?).xml').findall(link)
+                for code in match:
+                        url = 'http://player.iyimix.com/playlist/' + code+ '.xml'
+                        link=xbmctools.get_url(url)
+                        match=re.compile('<file>(.*?)</file>').findall(link)
+                        del match[0]
+                build_from_xml(videoTitle,match,'tvshow')
+        else:
+                pass
+
+
+def build_from_page(videoTitle,url,match,genre):
+        section='page'
+        urlList=''
+        nameCount=0
+        playList.clear()
         dialog = xbmcgui.Dialog()
         ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
         if ret == 0:
-                for linkTitle,partLink in match:
-                        videoTitle =str(linkTitle)
-                        partLinks = partLinks + partLink
-                        partLinks = partLinks + ':;'
-                        listitem = xbmcgui.ListItem( linkTitle, iconImage="DefaultVideo.png", thumbnailImage='special://home/addons/plugin.video.diziport/resources/images/main.jpg')
-                        listitem.setInfo( type="Video", infoLabels={ "Title": videoTitle } )
-                        ok=True
-                #create seperate links
-                        xbmctools.addVideoLink(videoTitle,partLink,'')
-                #create url1:;url2:;url3.....an send a directory to resolve and add to playlist...
-                playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-                playList.clear()
-                #time.sleep(2)
-                links = partLinks.split(':;')
-                del links[-1]
-                pDialog = xbmcgui.DialogProgress()
-                ret = pDialog.create('Loading playlist...')
-                totalLinks = len(links)
-                loadedLinks = 0
-
-                for videoLink in links:
-                        playList.add(videoLink)
-                        loadedLinks = loadedLinks + 1
-                        percent = (loadedLinks * 100)/totalLinks
-                        remaining_display = __language__(30019)+' [B]' +str(loadedLinks)+' / '+str(totalLinks)+'[/B]'+ __language__(30018)
-                        pDialog.update(percent,__language__(30002),remaining_display)
-                        if (pDialog.iscanceled()):
-                                return False
-                xbmcPlayer = xbmc.Player()
+                for pageUrl in match:
+                        urlList=urlList+pageUrl
+                        urlList=urlList+':;'
+                #list all page
+                        total=url+':;'+urlList
+                        links = total.split(':;')
+                        del links [-1]
+                #grab partlink from list
+                for partLink in links:
+                        link=xbmctools.get_url(url)
+                        match=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)
+                        for partLink in match:
+                                name='Part'
+                                nameCount=nameCount+1
+                                name=str(name)+' '+str(nameCount)
+                        xbmctools.addVideoLink(videoTitle+' '+name,partLink,'')
+                        playList.add(partLink)
                 xbmcPlayer.play(playList)
-                if not xbmcPlayer.isPlayingVideo():
-                        d = xbmcgui.Dialog()
-                        d.ok('INVALID VIDEO PLAYLIST', 'videos cannot find.','Check other links.')
-        return ok
-                        
         if ret == 1:
-                d = xbmcgui.Dialog()
-                d.ok('HAZIR DEGIL', 'Acele Etmeyin.','Yakinda Hazir olacak.')
+                for pageUrl in match:
+                                urlList=urlList+pageUrl
+                                urlList=urlList+':;'
+                                total=url+':;'+urlList
+                xbmctools.Download(videoTitle,total,genre,section)
+                
 
-def yabancidizi(name,url):
-        link=xbmctools.get_url(url)
-#xml okuma
-        page=re.compile('{ file: "(.*?)" }').findall(link)
-        epname= 'part'
-        a=0
-#Create playlist
-        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        
+def build_from_xml(videoTitle,match,genre):
+        print match,'*************xml*******************************'
+        section='xml'
+        partLinkList = ''
+        nameCount=0
         playList.clear()
-		
-        for url in page:
-                        a= a+1
-                        name = epname + ' - '+str(a)
-                        playList.add(url)
-                        xbmctools.addLink(name,url,'')
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playList)
-        if not xbmcPlayer.isPlayingVideo():
-                        d = xbmcgui.Dialog()
-                        d.ok('INVALID VIDEO PLAYLIST', 'videos cannot find.','Check other links.')
-                        
-def Dizihd(name,url):
-        ok= True
-        link=xbmctools.get_url(url)
-#xml okuma
-        page=re.compile('xmlAddress = \'(.+?)\'').findall(link)
-        if len (page)<= 0:
-                vk=re.compile('<iframe src="(.*?)"').findall(link)
-                for url in vk:
-                        vk_com(url)
-                return False
-        epname= 'part'
-        a=0
-#Create playlist
-        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playList.clear()
-#xmlAddress = 'http://www.dizihd.com/player/dizihd/supernaturals07e01hd.xml'
-        for url in page:
-                link=xbmctools.get_url(url)
-                #<videoPath value="http://www.dizihd.com/dizihdd.php?git=http://video.ak.fbcdn.net/cfs-ak-ash4/344221/498/112810335493302_60183.mp4"/>
-                match=re.compile('<videoPath value="(.+?)"').findall(link)
-                del match [0]
-                for url in match:
-                        a= a+1
-                        name = epname + ' - '+str(a)
-                        playList.add(url)
-                        xbmctools.addLink(name,url,'special://home/addons/plugin.video.dizihd/resources/images/izle.png')
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playList)
-        if not xbmcPlayer.isPlayingVideo():
-                        d = xbmcgui.Dialog()
-                        d.ok('INVALID VIDEO PLAYLIST', 'videos cannot find.','Check other links.')
-        return ok
-def vk_com(url):
-      link=xbmctools.get_url(url)
-      match=re.compile('video_host = \'(.*?)/\';\nvar video_uid = \'(.*?)\';\nvar video_vtag = \'(.*?)\'').findall(link)
-      for a,b,c in match:
-              #http://cs505211.userapi.com/u144315788/video/f879d60fb3.360.mp4
-              url=a +'/u'+ b +'/video/' + c + '.360.mp4'
-              xbmctools.addLink('Play',url,'')
-def fullfilm(url):
-        ok = True
-        liste=''
-        link=xbmctools.get_url(url)
-        match=re.compile('<a href="(.*?)">Bolum .*?</a>').findall(link)
-        for link in match:
-                liste=liste+link
-                liste=liste+':;'
-        total=url+':;'+liste
-        playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playList.clear()
-        pDialog = xbmcgui.DialogProgress()
-        ret = pDialog.create('Loading playlist...')
-        links = total.split(':;')
-        del links [-1]
-        totalLinks = len(links)
-        loadedLinks = 0
-        a=0
-        for url in links:
-                req = urllib2.Request(url)
-                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-                response = urllib2.urlopen(req)
-                link=response.read()
-                response.close()
-                match=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)
+        dialog = xbmcgui.Dialog()
+        ret = dialog.select(__language__(30008), [__language__(30009), __language__(30010)])
+        if ret == 0:
                 for partLink in match:
                         name='Part'
-                        a=a+1
-                        name= name+' '+str(a)
-                        xbmctools.addVideoLink(name,partLink,'')
+                        nameCount=nameCount+1
+                        name= name+' '+str(nameCount)
+                        #add play all part keep from future
+                        partLinkList = partLinkList + partLink
+                        partLinkList = partLinkList + ':;'
+                        xbmctools.addVideoLink(videoTitle+' '+name,partLink,'')
                         playList.add(partLink)
-                        loadedLinks = loadedLinks + 1
-                        percent = (loadedLinks * 100)/totalLinks
-                        remaining_display = __language__(30019)+' [B]' +str(loadedLinks)+' / '+str(totalLinks)+'[/B]'+ __language__(30018)
-                        pDialog.update(percent,__language__(30002),remaining_display)
-                        if (pDialog.iscanceled()):
-                                return False
+                xbmcPlayer.play(playList)
+        if ret == 1:
+                for partLink in match:
+                                partLinkList = partLinkList + partLink
+                                partLinkList = partLinkList + ':;'
+                xbmctools.Download(videoTitle,partLinkList,genre,section)
+             
 
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playList)
-
-def klip(url):
-        link=xbmctools.get_url(url)
-        match=re.compile('http://player.iyimix.com/config/(.*?).xml').findall(link)
-        for code in match:
-                url = 'http://player.iyimix.com/playlist/' + code+ '.xml'
-                link=xbmctools.get_url(url)
-                sd=re.compile('<file>(.*?)</file>').findall(link)
-                del sd[0]
-                name=re.compile('<title>(.*?)</title>').findall(link)
-                for url in sd:
-                        xbmctools.addVideoLink('Play',url,'')
-                xbmcPlayer = xbmc.Player()
-                xbmcPlayer.play(url)
 def live(url):
         data = open(url, 'r').read()
         soup = BeautifulSOAP(data, convertEntities=BeautifulStoneSoup.XML_ENTITIES)
@@ -225,34 +193,20 @@ def live(url):
             except:
                 thumbnail = ''
         xbmctools.addFolder(FILENAME,videoTitle,"getChannelItems(name,url)",url,thumbnail)
-def Download(url):
-       filename = (name+'.mp4')
-       downloadFolder = __settings__.getSetting('downloadFolder')
-       if downloadFolder is '':
-                d = xbmcgui.Dialog()
-                d.ok('Download Error','You have not set the download folder.\n Please set the addon settings and try again.','','')
-                __settings__.openSettings(sys.argv[ 0 ])
-       else:
-                if not os.path.exists(downloadFolder):
-                        print 'Download Folder Doesnt exist. Trying to create it.'
-                        os.makedirs(downloadFolder)
 
-                def download(url, dest):
-                                dialog = xbmcgui.DialogProgress()
-                                dialog.create('Downloading Movie','From Source', filename)
-                                urllib.urlretrieve(url, dest, lambda nb, bs, fs, url = url: _pbhook(nb, bs, fs, url, dialog))
-                def _pbhook(numblocks, blocksize, filesize, url = None,dialog = None):
-                                try:
-                                                percent = min((numblocks * blocksize * 100) / filesize, 100)
-                                                dialog.update(percent)
-                                except:
-                                                percent = 100
-                                                dialog.update(percent)
-                                if dialog.iscanceled():
-                                                dialog.close()
-                if (__settings__.getSetting('downloadFolder') == ''):
-                                __settings__.openSettings('downloadFolder')
-                filepath = xbmc.translatePath(os.path.join(__settings__.getSetting('downloadFolder'),filename))
-                download(url, filepath)
-                iscanceled = True
-                xbmc.executebuiltin('Notification("Diziport","Select&Download")')
+def youTube(url, name, playlist=False):
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8')
+    response = urllib2.urlopen(req)
+    link = response.read()
+    precode = re.compile('url_encoded_fmt_stream_map=(.*)').findall(link)
+    code = re.compile('url%3Dhttp%253A%252F%252F(.+?)%26itag').findall(precode[0])
+    videourl = getQualityUrl(code)
+    stringurl = "http://"+videourl.replace('%25','%')
+    stringurl = stringurl.replace('\\','').replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&').replace('%2C', ',')
+    stringurl += " | Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
+    if playlist:
+        liz = xbmcgui.ListItem(name)
+        xbmc.PlayList(xbmc.PLAYLIST_VIDEO).add(url = stringurl, listitem=liz)
+    else:
+        xbmctools.addVideoLink("Play "+name, stringurl)
