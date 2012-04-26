@@ -14,7 +14,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>Videos Live TV Tvshows from many turkish sources</summary>
-    <description>xbmcTR.com sunar..Canlý yayýn, Diziler , SÝnema Filmeri Hepsi elinizin altýnda</description>
-    <platform>all</platform>
+    <description>xbmcTR.com sunar..Canli yayin, Diziler , Sinema Filmeri Hepsi elinizin altinda</description>
+<platform>all</platform>
   </extension>
 </addon>
