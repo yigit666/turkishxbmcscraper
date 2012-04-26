@@ -1,7 +1,7 @@
-ï»¿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.xbmctr"
        name="xbmcTR Media Center"
-       version="0.2.1.1"
+       version="0.2.1.2"
        provider-name="xbmcTR TEAM">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -14,7 +14,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>Videos Live TV Tvshows from many turkish sources</summary>
-    <description>xbmcTR.com sunar..CanlÄ± yayÄ±n, Diziler , SÄ°nema Filmeri Hepsi elinizin altÄ±nda</description>
+    <description>xbmcTR.com sunar..Canlý yayýn, Diziler , SÝnema Filmeri Hepsi elinizin altýnda</description>
     <platform>all</platform>
   </extension>
 </addon>
