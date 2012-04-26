@@ -26,8 +26,6 @@ import urllib,urllib2
 import sys,re
 import os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
-import helper
-import clean_dirs
 
 site='http://drascom.dyndns.org/site/'
 site2='http://192.168.0.52/site/'

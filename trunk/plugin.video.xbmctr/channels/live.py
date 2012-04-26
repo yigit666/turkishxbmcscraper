@@ -8,7 +8,7 @@ try:
     import json
 except:
     import simplejson as json
-import scraper, xbmctools, helper
+import scraper, xbmctools
 
 # -*- coding: iso-8859-9 -*-
 Addon = xbmcaddon.Addon('plugin.video.xbmcTR')

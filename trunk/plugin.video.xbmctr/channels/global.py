@@ -1,6 +1,6 @@
 import urllib,urllib2,re,sys
 import xbmcplugin,xbmcgui,xbmcaddon,xbmc
-import scraper, xbmctools, helper
+import scraper, xbmctools
 
 # -*- coding: iso-8859-9 -*-
 Addon = xbmcaddon.Addon('plugin.video.xbmctr')
