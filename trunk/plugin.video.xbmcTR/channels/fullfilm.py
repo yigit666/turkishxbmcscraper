@@ -10,6 +10,9 @@ __language__ = __settings__.getLocalizedString
 
 FILENAME = "fullfilm"
 
+'''Constants'''
+xbmcPlayer = xbmc.Player()
+playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 
 
 def main():
@@ -38,17 +41,12 @@ def Recent(url):
     
 
         main=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
-        for url,thumbnail,videoTitle in main:
-                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",url,thumbnail)
+        for Url,thumbnail,videoTitle in main:
+                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",Url,thumbnail)
         
         top=re.compile('<li>    <a href="(.*?)" title=".*?"><img src="(.*?)" alt="(.*?) izle " WIDTH=147 HEIGHT=205 class="guncover"/></a>\n    </li>').findall(link)
         for url,thumbnail,name in top:
-                xbmctools.addFolder("scraper",'>> '+name, "prepare_list(videoTitle,url)",url,thumbnail)
-        
-
-
-    
-            
+                xbmctools.addFolder("scraper",'>> '+name, "prepare_list(videoTitle,url)",url,thumbnail)         
 
 
 def Search():
@@ -58,6 +56,8 @@ def Search():
             query = keyboard.getText()
             url = ('http://www.filmifullizle.com/index.php?s=' + query)
             Recent(url)
+
+
 def MAINMENU(url):
          xbmctools.addFolder(FILENAME,'<<<'+__language__(30002),"main()",'http://www.filmifullizle.com/','')
 

@@ -94,7 +94,7 @@ def BuildPage(code):
     else:
         pass
     
-'''
+
 def getSoup(url):
         if url.startswith('http://'):
             try:
@@ -143,4 +143,4 @@ def getChannelItems(name,url):
             except:
                 print 'There was a problem adding directory - '+name.encode('utf-8', 'ignore')
 
-'''
+

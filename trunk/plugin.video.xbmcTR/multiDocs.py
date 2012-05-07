@@ -30,12 +30,7 @@ import urllib
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 
 # -*- coding: iso-8859-9 -*-
-Addon = xbmcaddon.Addon('plugin.video.xbmctr')
-
-addon_id = 'plugin.video.xbmctr'
-selfAddon = xbmcaddon.Addon(id=addon_id)
-addon_path = selfAddon.getAddonInfo('path')
-
+Addon = xbmcaddon.Addon('plugin.video.xbmcTR')
 
 # Fetch all folders needed to run the add on
 folders = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resources', 'lib'))
@@ -50,14 +45,12 @@ import xbmctools
 Adds all folders in XBMC to the various websites.
 '''
 def listChannels():
-    xbmctools.addFolder("search", "GLOBAL ARAMA", "main()", "", "search")
+    xbmctools.addFolder("live", "Henuz beta aşamasındayız (v0.2.04) bazı fonksiyonlar çalışmayabilir.Her dakika guncellenmekte sık sık kontrol ediniz..", "main()", "", "live")
     xbmctools.addFolder("live", "Live TV ", "main()", "", "live")
-    xbmctools.addFolder("dizimag", "DiziMag Streams", "main()", "", "dizimag")
     xbmctools.addFolder("diziport", "DiziPort Streams", "main()", "", "diziport")
     xbmctools.addFolder("diziHd", "DiziHD Streams", "main()", "", "diziHd")
-    xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("fullfilm", "Sinema HD", "main()", "", "fullfilm")
-    xbmctools.addFolder("sinemaizle", "Sinema sd", "main()", "", "sinemaizle")
+    xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("klip", "Music TV", "main()", "", "klip")
      
 '''
@@ -89,7 +82,6 @@ fileName = None
 method = None
 url = None
 videoTitle = None
-thumbnail = None
 
 #Try-catch blocks to see which parameters are available 
 try:
@@ -112,16 +104,12 @@ try:
     videoTitle = urllib.unquote_plus(params["videoTitle"])
 except:
     pass
-try:
-    thumbnail = urllib.unquote_plus(params["thumbnail"])
-except:
-    pass
+
 print "Name: "+str(name)
 print "FileName: "+str(fileName)
 print "Method: "+str(method)
 print "Url: "+str(url)
 print "VideoTitle: "+str(videoTitle)
-print "Thumbnail: "+str(thumbnail)
 
 # All methods are run through various class files.
 # If there is no "fileName" it must mean that the user

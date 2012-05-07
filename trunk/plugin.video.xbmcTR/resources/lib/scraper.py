@@ -1,4 +1,4 @@
-# Multi Documentary Streams, is an XBMC add on that sorts and displays 
+﻿# Multi Documentary Streams, is an XBMC add on that sorts and displays 
 # video content from several websites to the XBMC user.
 #
 # Copyright (C) 2011, Ricardo Ocana Leal
@@ -44,11 +44,76 @@ playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 
 
 
-def prepare_list(videoTitle,url):
-        print url
-        link=xbmctools.get_url(url)
+
+
+
+'''
+listing,pagination function
+for multipage web site
+'''
+
+def prepare_page_list(Url,match):
+        urlList=''
+        for pageUrl in match:                   #web page list function
+                urlList=urlList+pageUrl #add page to list
+                urlList=urlList+':;'    #add seperator
+                total=Url+':;'+urlList  #add first url
+                match = total.split(':;') #split links
+                del match [-1]            #delete first seperator
+        info='Film '+str(len(match))+' part.'
+        print info
+        return match
+
+
+def prepare_play_links(videoTitle,match):
+        i=0
+        for pageLink in match:
+                link=xbmctools.get_url(pageLink)
+                match=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)
+                for videoLink in match:
+                        i+=1
+                        xbmctools.addVideoLink(videoTitle+' Part '+str(i),videoLink,'')
+                        playList.add(videoLink)
+
+def prepare_vk(videoTitle,match,mode):
+        if mode == 2:
+                vk_link = match
+                set_vk(videoTitle,vk_link,'Tek Part')
+        else:
+                i=0
+                for vk_link in match:
+                        i+= 1
+                        set_vk(videoTitle,vk_link,i)
+
+def set_vk(videoTitle,vk_link,i):
+        link=xbmctools.get_url(vk_link)
+        vk=re.compile('<iframe src="(.*?)" width="708" height="450" frameborder="0"></iframe>').findall(link)
+        print vk_link,vk,'*******************  vk    ***************'       
+        for pageLink in vk:
+                link=xbmctools.get_url(pageLink)
+                scan=re.compile('video_host = \'(.*?)/\';\nvar video_uid = \'(.*?)\';\nvar video_vtag = \'(.*?)\'').findall(link)
+                print scan,'**********scan********'
+                for a,b,c in scan:
+                        #http://cs505211.userapi.com/u144315788/video/f879d60fb3.360.mp4
+                        videoLink=a +'/u'+ b +'/video/' + c + '.360.mp4'
+                        xbmctools.addVideoLink(videoTitle+' Part '+str(i),videoLink,'')
+                        playList.add(videoLink)
+
+
+
+
+
+
+
+
+
+
+
+def prepare_list(videoTitle,Url):
+        playList.clear()
+        link=xbmctools.get_url(Url)
         '----------------------------'
-        if url.startswith('http://diziport.com'):
+        if Url.startswith('http://diziport.com'):
                 match=re.compile('<b class="yellow"><a href="http://diziport.com/(.*?)-tekpartizle/(.*?)/1" title=".*?"><b class="yellow">Tek</b> Part</a>').findall(link)
                 for u1,u2 in match:
                         url='http://diziport.com/playlist.php?bolum='+u2+'&dizi='+u1
@@ -59,13 +124,13 @@ def prepare_list(videoTitle,url):
         else:
                 pass
         '----------------------------'
-        if url.startswith('http://yabancidiziizle.com'):
+        if Url.startswith('http://yabancidiziizle.com'):
                 match=re.compile('{ file: "(.*?)" }').findall(link)
                 build_from_xml(videoTitle,match,'tvshow')
         else:
                 pass
         '----------------------------'
-        if url.startswith('http://www.dizihd.com'):
+        if Url.startswith('http://www.dizihd.com'):
                 match=re.compile('xmlAddress = \'(.+?)\'').findall(link)
                 if len (match)<= 0:
                         vk=re.compile('<iframe src="(.*?)"').findall(link)
@@ -96,17 +161,55 @@ def prepare_list(videoTitle,url):
                                 match='plugin://plugin.video.youtube/?action=play_video&videoid=' + code
                                 print match,'youtubelist'
                 except:
+                        
                         pass
                 build_from_xml(videoTitle,match,'tvshow')
         '----------------------------'
-        if url.startswith('http://www.filmifullizle.com'):
-                match=re.compile('<a href="(.*?)">Bolum .*?</a>').findall(link)
-                build_from_page(videoTitle,url,match,'movie')
+        if Url.startswith('http://www.filmifullizle.com'):
+                match=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)#check xml link
+                code = 1
+                if not match:
+                        match=re.compile('<iframe src="(.*?)" width="708" height="450" frameborder="0"></iframe>').findall(link)#check single part vk.com
+                        code = 2
+                if not match:
+                        match=re.compile('src="http://www.youtube.com/embed/(.*?)"').findall(link)#check youtube
+                        code = 3
+                
+                page=re.compile('<a href="(.*?)">Bolum .*?</a>').findall(link)#check multi part
+                if len(page) > 1:
+                        mode = 1
+                else:
+                        mode = 2
+                
+                print mode;print code;print '*************************** mode code *******************'
+                if mode == 1:
+                        if code == 1:#multi page facebook direct
+                                match = prepare_page_list(Url,match)# add first page to list
+                                page = prepare_play_links(videoTitle,match)
+                        else:        #multipage vk.video
+                                match = prepare_page_list(Url,page)
+                                print match,' 1 in 2 si match'
+                                page = prepare_vk(videoTitle,match,mode)
+                                
+                                
+                elif mode == 2:
+                        if code == 2:    #single vk.video                                              
+                                match = prepare_vk(videoTitle,Url,mode)
+                        else:
+                                
+                                videoLink='plugin://plugin.video.youtube/?action=play_video&videoid=' + str(match[0])
+                                xbmctools.addVideoLink(videoTitle+' Fragman ',videoLink,'')
+                                playList.add(videoLink)
+
+                else:
+                        print '*************************** code mode fısss *******************'
+                                     
+                xbmcPlayer.play(playList)               
         else:
                 pass
 
         '--------------------------------------------------------------------------------------------------------------------------'
-        if url.startswith('http://video-klipleri.org/'):
+        if Url.startswith('http://video-klipleri.org/'):
                 print 'Klip Source -----------------------'
                 match=re.compile('http://player.iyimix.com/config/(.*?).xml').findall(link)
                 for code in match:
@@ -119,7 +222,7 @@ def prepare_list(videoTitle,url):
                 pass
 
         '--------------------------------------------------------------------------------------------------------------------------'
-        if url.startswith('http://www.dizimag.com'):
+        if Url.startswith('http://www.dizimag.com'):
                 lowres=re.compile('dusuk="(.*?)"').findall(link)
                 highres=re.compile('yuksek="(.*?)"').findall(link)
                 dialog = xbmcgui.Dialog()
@@ -139,16 +242,19 @@ def prepare_list(videoTitle,url):
                         build_from_xml(videoTitle,match,'tvshow')
         else:
                 pass
+
                  
         '--------------------------------------------------------------------------------------------------------------------------'
-        if url.startswith('http://www.sinemaizle.org'):
+        if Url.startswith('http://www.sinemaizle.org'):
                 match=re.compile('name=".*?file=(.*?)&image=.*?"').findall(link)
                 build_from_xml(videoTitle,match,'movie')
         else:
                 pass
 
 
+                
 def build_from_page(videoTitle,url,match,genre):
+        print videoTitle,url,match,
         section='page'
         urlList=''
         nameCount=0
@@ -164,16 +270,36 @@ def build_from_page(videoTitle,url,match,genre):
                         links = total.split(':;')
                         del links [-1]
                 #grab partlink from list
-                for partLink in links:
-                        link=xbmctools.get_url(url)
+                for pageLink in links:
+                        link=xbmctools.get_url(pageLink)
                         match=re.compile('<embed src=\'.*?file=(.*?)&a').findall(link)
-                        for partLink in match:
+                        if len(match)>=1:
+                                print match,'********************** xml ************************'
                                 name='Part'
-                                nameCount=nameCount+1
-                                name=str(name)+' '+str(nameCount)
-                        xbmctools.addVideoLink(videoTitle+' '+name,partLink,'')
-                        playList.add(partLink)
+                                for partLink in match:
+                                        nameCount=nameCount+1
+                                        name=str(name)+' '+str(nameCount)
+                                        print partLink
+                                        xbmctools.addVideoLink(videoTitle+' '+name,partLink,'')
+                                        playList.add(partLink)
+                        else:
+                                match=re.compile('<iframe src="(.*?)hd=.*?"').findall(link)
+                                print match,'********************** vk link ************************'
+                                for partLink in match:
+                                        link=xbmctools.get_url(partLink)
+                                        scan=re.compile('video_host = \'(.*?)/\';\nvar video_uid = \'(.*?)\';\nvar video_vtag = \'(.*?)\'').findall(link)
+                                        name='Part'
+                                        for a,b,c in scan:
+                                              #http://cs505211.userapi.com/u144315788/video/f879d60fb3.360.mp4
+                                              partLink=a +'/u'+ b +'/video/' + c + '.360.mp4'
+                                        nameCount=nameCount+1
+                                        name=str(name)+' '+str(nameCount)
+                                        print partLink
+                                        xbmctools.addVideoLink(videoTitle+' '+name,partLink,'')
+                                        playList.add(partLink)
                 xbmcPlayer.play(playList)
+                                
+                        
         if ret == 1:
                 for pageUrl in match:
                                 urlList=urlList+pageUrl

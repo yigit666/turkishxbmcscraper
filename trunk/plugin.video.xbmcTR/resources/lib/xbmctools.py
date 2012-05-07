@@ -53,20 +53,24 @@ IMAGES_PATH = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resou
 
 def setUrl():
         try:
-                url=site+'sys.html'
-                print url,'*******************************************'
-                link=get_url(url)
+                Url=site+'sys.html'
+                print Url,'*******************************************'
+                link=get_url(Url)
                 safe=re.compile('<link>(.*?)</link>').findall(link)
-        
+                for Url in safe:
+                        Url=Url
+                return Url
+                print safe,'*********************  safe  1 **********************'
         except:                
-                url=site2+'sys.html'
-                print url,'*******************************************'
-                link=get_url(url)
+                Url=site2+'sys.html'
+                print Url,'*******************************************'
+                link=get_url(Url)
                 safe=re.compile('<link>http://drascom.dyndns.org/(.*?)</link>').findall(link)
-        for url in safe:
-                url='http://192.168.0.52/'+url
-                print url,'*******************************************'
-                return url
+                print safe,'*********************  safe  2 **********************'
+                for url in safe:
+                        Url='http://192.168.0.52/'+url
+                        print Url,'******************* son ************************'
+                        return Url
 
 def get_url(url):
         req = urllib2.Request(url)
