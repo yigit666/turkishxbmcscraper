@@ -50,7 +50,7 @@ import xbmctools
 Adds all folders in XBMC to the various websites.
 '''
 def listChannels():
-    xbmctools.addFolder("search", "GLOBAL ARAMA", "main()", "", "search")
+    xbmctools.addFolder("arama", "GLOBAL ARAMA", "main()", "", "arama")
     xbmctools.addFolder("live", "Live TV ", "main()", "", "live")
     xbmctools.addFolder("dizimag", "DiziMag Streams", "main()", "", "dizimag")
     xbmctools.addFolder("diziport", "DiziPort Streams", "main()", "", "diziport")

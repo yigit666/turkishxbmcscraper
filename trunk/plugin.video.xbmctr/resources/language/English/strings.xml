@@ -33,7 +33,15 @@
 	<string id="30036">>> Yesilcam</string>
 	<string id="30037">>> Kids - Cartoon TR</string>
 	<string id="30038">>> Kids - Cartoon DE</string>
-	<string id="30039">>> Yerli Filmler</string>
-	<string id="30040">>> Yabanci Filmler</string>
+	<string id="30039">>> Local Movies</string>
+	<string id="30040">>> English Movies</string>
 	<string id="30041">>> Turkce Dublaj Filmler</string>
+	<string id="30042">>> Local TV Shows</string>
+	<string id="30043">>> English TV Shows</string>
+	<string id="30044">>> Season</string>
+	<string id="30045">>> Low Quality</string>
+	<string id="30046">>> High quality</string>
+	<string id="30047">>> Kind of Search</string>
+	<string id="30048">>> Tv Shows ?</string>
+	<string id="30049">>> Movies ?</string>
 </strings>
