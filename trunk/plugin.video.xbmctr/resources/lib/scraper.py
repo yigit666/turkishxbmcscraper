@@ -211,13 +211,23 @@ def prepare_list(videoTitle,Url):
         '--------------------------------------------------------------------------------------------------------------------------'
         if Url.startswith('http://video-klipleri.org/'):
                 print 'Klip Source -----------------------'
-                match=re.compile('http://player.iyimix.com/config/(.*?).xml').findall(link)
-                for code in match:
-                        url = 'http://player.iyimix.com/playlist/' + code+ '.xml'
-                        link=xbmctools.get_url(url)
-                        match=re.compile('<file>(.*?)</file>').findall(link)
-                        del match[0]
-                build_from_xml(videoTitle,match,'tvshow')
+                code=re.compile(r'.*?_(.*?).html').findall(Url)
+                Url = 'http://player.iyimix.com/playlist/' + code[0]+ '.xml'
+                
+                link2=xbmctools.get_url(Url)
+                match=re.compile(r'<file.*?>(.*?)</file').findall(link2)
+                dialog = xbmcgui.Dialog()
+                ret = dialog.select(__language__(30008), [__language__(30045), __language__(30046)])
+                if ret == 0:
+                        xbmctools.addVideoLink(videoTitle,match[0],'')
+                        playList.add(match[0])
+                if ret == 1:
+                        xbmctools.addVideoLink(videoTitle,match[1],'')
+                        playList.add(match[1])
+
+                                
+                xbmcPlayer.play(playList)
+                return code
         else:
                 pass
 

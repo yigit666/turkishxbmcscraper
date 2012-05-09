@@ -55,9 +55,9 @@ def listChannels():
     xbmctools.addFolder("dizimag", "DiziMag Streams", "main()", "", "dizimag")
     xbmctools.addFolder("diziport", "DiziPort Streams", "main()", "", "diziport")
     xbmctools.addFolder("diziHd", "DiziHD Streams", "main()", "", "diziHd")
-    xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
+    #xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("fullfilm", "Sinema HD", "main()", "", "fullfilm")
-    xbmctools.addFolder("sinemaizle", "Sinema sd", "main()", "", "sinemaizle")
+    #xbmctools.addFolder("sinemaizle", "Sinema sd", "main()", "", "sinemaizle")
     xbmctools.addFolder("klip", "Music TV", "main()", "", "klip")
      
 '''
