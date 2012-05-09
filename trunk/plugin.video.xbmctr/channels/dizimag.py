@@ -8,6 +8,7 @@ __settings__ = xbmcaddon.Addon(id='plugin.video.xbmcTR')
 __language__ = __settings__.getLocalizedString
 
 
+
 FILENAME = "dizimag"
 MAINSITE="http://www.dizimag.com/"
 
@@ -43,7 +44,9 @@ def RECENT(url):
         MAINMENU(url)
         link=xbmctools.get_url(url)
         match=re.compile('<a href=/(.*?) class="yana.*?"><img src=(.*?) class=avatar width=40><span><h1>(.*?)</h1>(.*?)<').findall(link)        
+        
         for url,thumbnail,x,y in match:
+
                 print url
                 videoTitle=x+' - '+'('+y+')'
                 xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",MAINSITE+url,'http://i.dizimag.com/dizi/'+url+'.jpg')
@@ -60,15 +63,20 @@ def Season(videoTitle,url,thumbnail):
                         episodeurl=""
                         for count in match:
                                 newurl=url+'-'+str(i)+'-sezon-dizi.html'
-                                xbmctools.addFolder(FILENAME,videoTitle+__language__(30044)+ str(i), "Episodes(url)",newurl,"")
+                                xbmctools.addFolder(FILENAME,videoTitle+'  '+__language__(30044)+ str(i), "Episodes(videoTitle,url)",newurl,"")
                                 i+=1
                
                 
-def Episodes(url):
+def Episodes(videoTitle,url):
         link=xbmctools.get_url(url)
-        match=re.compile('<br><a href="/(.*?)"><b style=color:yellow>(.*?)<font color=gray>(.*?)</font>').findall(link)
-        for url,videoTitle,EpisodeNo in match:
-            xbmctools.addFolder("scraper",videoTitle+EpisodeNo, "prepare_list(videoTitle,url)",MAINSITE+url,"")        
+        match=re.compile('<br><a href="(.*?)"><b style=color:yellow>(.*?)<font color=gray>(.*?)<\/font>').findall(link)
+        
+        if not match:
+                match=re.compile('<br><a href="/(.*?)"><b style=color:yellow>(.*?\s.*?)\s(.*?)<span class=gizle>').findall(link)
+                
+        for url,videoTitle,episode in match:
+               
+                xbmctools.addFolder("scraper",videoTitle+'  '+episode, "prepare_list(videoTitle,url)",MAINSITE+url,'')        
 
 
         
