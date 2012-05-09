@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon id="plugin.video.dizimag"
+       name="Dizimag"
+       version="0.5.3"
+       provider-name="Gökçen Eraslan">
+  <requires>
+	<import addon="xbmc.python" version="2.0"/>
+    <import addon="script.module.beautifulsoup" version="3.0.8"/>
+  </requires>
+
+  <extension point="xbmc.addon.metadata">
+    <summary>Dizimag</summary>
+    <description>View full episodes of popular tv shows!</description>
+    <platform>all</platform>
+  </extension>
+
+  <extension point="xbmc.python.pluginsource"
+            library="addon.py">
+        <provides>video</provides>
+  </extension>
+</addon>
+
 <addon id="plugin.video.xbmctr"
        name="xbmcTR Media Center"
        version="0.2.5.2"
