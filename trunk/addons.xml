@@ -23,7 +23,7 @@
 
 <addon id="plugin.video.xbmctr"
        name="xbmcTR Media Center"
-       version="0.2.5.3"
+       version="0.2.5.5"
        provider-name="xbmcTR TEAM">
     <requires>
 		<import addon="xbmc.python" version="1.0"/>

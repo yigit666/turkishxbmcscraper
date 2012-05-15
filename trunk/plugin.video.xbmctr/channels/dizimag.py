@@ -73,6 +73,7 @@ def RECENT(url):
         match=re.compile('<a href=/(.*?) class="yana.*?"><img src=(.*?) class=avatar width=40><span><h1>(.*?)</h1>(.*?)<').findall(link)        
         
         for url,thumbnail,x,y in match:
+                print url
                 videoTitle=x+' - '+'('+y+')'
                 xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",MAINSITE+url,'http://i.dizimag.com/dizi/'+url+'.jpg')
                 
@@ -96,12 +97,13 @@ def Episodes(videoTitle,url):
         link=xbmctools.get_url(url)
         match=re.compile('<td width=30 class=fp><a href="(.*?).html"><img src=(.*?).jpg class=avatar width=30 height=30></a>').findall(link)
         for url,thumbnail in match:
-                videoTitle=re.compile(r'/(.*?)-izle-dizi').findall(str(url))
-                videoTitle=xbmctools.name_fix(str(videoTitle))
+                videoTitle=re.compile('/(.*?)-izle-dizi').findall(str(url))
+                for name in videoTitle:
+                        videoTitle=xbmctools.name_fix(name)
                 url="http://www.dizimag.com"+str(url)+'.html'
-                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",MAINSITE+url,'')        
+                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",url,'')        
 
-
+       
 
 
 def MAINMENU(url):
