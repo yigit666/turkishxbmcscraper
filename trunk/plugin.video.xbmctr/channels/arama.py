@@ -50,7 +50,8 @@ def main():
                         url = SEARCH
                         link=xbmctools.get_url(url)      
                         match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
-                        xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
+                        if len(match)>1:
+                                xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
                         for Url in match:
                                 videoTitle=re.compile('/([^ ]*)').findall(str(Url))
                                 videoTitle=xbmctools.name_fix(videoTitle[0])
