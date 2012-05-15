@@ -1,4 +1,24 @@
 ﻿import urllib,urllib2,re,sys
+# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
+# video content from several websites to the XBMC user.
+#
+# Copyright (C) 2011, Emin Ayhan Colak
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# for more info please visit http://xbmctr.com
+
+
 import xbmcplugin,xbmcgui,xbmcaddon,xbmc
 import scraper, xbmctools
 
@@ -10,6 +30,7 @@ __language__ = __settings__.getLocalizedString
 
 FILENAME = "arama"
 
+SEARCH="http://i.dizimag.com/cache/d.js?s91a5"
 
 def main():
         keyboard = xbmc.Keyboard("", 'Search', False)
@@ -17,27 +38,15 @@ def main():
         if keyboard.isConfirmed():
             query = keyboard.getText()
             query=query.replace(' ','+')
-            print query
+            query=xbmctools.name_fix(query)
 
 
         dialog = xbmcgui.Dialog()
         ret = dialog.select(__language__(30047), [__language__(30048), __language__(30049)])
         if ret == 0:
-                        
-                    try:
-                           
-                           url = ('http://diziport.com/index.php?eleman=' + query + '&bolum=dizi&obje=diziler&olay=arama')
-                           link=xbmctools.get_url(url)
-                           match=re.compile('<li><img src="(.*?)\?hash=123" alt=".*?" width="113" height="113" />\n<a href="(.*?)" title="(.*?)">').findall(link)
-                           if len(match)>1:
-                                   xbmctools.addFolder(FILENAME,'--------DiziPort--------' ,"",'','')
-                                   for thumbnail,url,videoTitle in match:
-                                           xbmctools.addFolder("diziport",videoTitle,"Session(url)",'http://diziport.com/'+url,'http://diziport.com/'+thumbnail)
-                    except:
-                           pass
 
 
-                    try:
+                try:
                            
                            url = ('http://www.dizihd.com/?s='+ query +'&x=0&y=0')
                            link=xbmctools.get_url(url)      
@@ -46,10 +55,22 @@ def main():
                                    xbmctools.addFolder(FILENAME,'--------Dizi HD--------' ,"",'','')
                                    for url,thumbnail,videoTitle in match:
                                            xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",url,thumbnail)
-                    except:
+                except:
                             pass
 
 
+                try:
+                           
+                        url = SEARCH
+                        link=xbmctools.get_url(url)      
+                        match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
+                        xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
+                        for Url in match:
+                                videoTitle=re.compile('/([^ ]*)').findall(str(Url))
+                                videoTitle=xbmctools.name_fix(videoTitle[0])
+                                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,Url)",Url,'')
+                except:
+                            pass
 
         if ret == 1:
                 

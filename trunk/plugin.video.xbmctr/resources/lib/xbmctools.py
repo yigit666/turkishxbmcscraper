@@ -1,8 +1,7 @@
-﻿# xbmcTR, is an XBMC add on that sorts and displays 
+﻿# # xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
 # video content from several websites to the XBMC user.
 #
-# Copyright (C) 2012, dr Ayhan Colak 
-#
+# Copyright (C) 2011, Emin Ayhan Colak
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -15,6 +14,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# for more info please visit http://xbmctr.com
+
 # -*- coding: iso-8859-9 -*-
 '''
 Edited on 5 April 2012
@@ -27,7 +29,7 @@ import sys,re
 import os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 
-site='http://drascom.dyndns.org/site/'
+site='http://xbmctr.com/'
 site2='http://192.168.0.52/site/'
 Addon = xbmcaddon.Addon('plugin.video.xbmctr')
 
@@ -50,27 +52,18 @@ finalPart = True
 IMAGES_PATH = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resources', 'images'))
 
 ################################################################################
+def name_fix(x):
+        x=x.replace('-',' ')
+        return x[0].capitalize() + x[1:]
+
 
 def setUrl():
-        try:
-                Url=site+'sys.html'
-                print Url,'*******************************************'
-                link=get_url(Url)
-                safe=re.compile('<link>(.*?)</link>').findall(link)
-                for Url in safe:
-                        Url=Url
-                return Url
-                print safe,'*********************  safe  1 **********************'
-        except:                
-                Url=site2+'sys.html'
-                print Url,'*******************************************'
-                link=get_url(Url)
-                safe=re.compile('<link>http://drascom.dyndns.org/(.*?)</link>').findall(link)
-                print safe,'*********************  safe  2 **********************'
-                for url in safe:
-                        Url='http://192.168.0.52/'+url
-                        print Url,'******************* son ************************'
-                        return Url
+    
+        Url=site+'sys.html'
+        link=get_url(Url)
+        safe=re.compile('<font size="1" color="white">(.*?)</font>').findall(link)
+        Url=str(safe[0])
+        return Url
 
 def get_url(url):
         req = urllib2.Request(url)
@@ -82,11 +75,14 @@ def get_url(url):
         response.close()
         return link
 
-def addFolder(FILENAME, videoTitle, method, url="", thumbnail="",info=""):
-    u = sys.argv[0]+"?fileName="+urllib.quote_plus(FILENAME)+"&videoTitle="+urllib.quote_plus(videoTitle)+"&method="+urllib.quote_plus(method)+"&url="+urllib.quote_plus(url)
-    liz = xbmcgui.ListItem(videoTitle, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
-    #liz.setInfo(type="Video", infoLabels=info)
-    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
+def addFolder(FILENAME, videoTitle, method, url="", thumbnail="",fanart=""):
+        u = sys.argv[0]+"?fileName="+urllib.quote_plus(FILENAME)+"&videoTitle="+urllib.quote_plus(videoTitle)+"&method="+urllib.quote_plus(method)+"&url="+urllib.quote_plus(url)+"&fanart="+urllib.quote_plus(fanart)
+        if thumbnail != "":
+                thumbnail = os.path.join(IMAGES_PATH, thumbnail+".png")
+        liz = xbmcgui.ListItem(videoTitle, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
+        liz=xbmcgui.ListItem(videoTitle, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
+        liz.setProperty( "Fanart_Image", fanart )
+        xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
     
 
 def addVideoLink(linkTitle, url, thumbnail=""):
@@ -95,11 +91,6 @@ def addVideoLink(linkTitle, url, thumbnail=""):
     liz.setProperty("IsPlayable", "true")
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz,isFolder=False)
     
-
-def addPlaylistLink(FILENAME, linkTitle, playlistUrls, playlistTitles, method):
-    u = sys.argv[0]+"?fileName="+urllib.quote_plus(FILENAME)+"&method="+urllib.quote_plus(method)+"&url="+urllib.quote_plus(playlistUrls)+"&videoTitle="+urllib.quote_plus(playlistTitles)
-    liz = xbmcgui.ListItem(linkTitle, iconImage="DefaultVideo.png")
-    xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=False)
 
 
 def addLink(name,url,iconimage):

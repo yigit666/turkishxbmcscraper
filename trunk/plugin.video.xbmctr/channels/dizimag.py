@@ -1,4 +1,23 @@
 import urllib,urllib2,re,sys
+# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
+# video content from several websites to the XBMC user.
+#
+# Copyright (C) 2011, Emin Ayhan Colak
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# for more info please visit http://xbmctr.com
+
 import xbmcplugin,xbmcgui,xbmcaddon,xbmc
 import scraper, xbmctools
 
@@ -11,6 +30,7 @@ __language__ = __settings__.getLocalizedString
 
 FILENAME = "dizimag"
 MAINSITE="http://www.dizimag.com/"
+SEARCH="http://i.dizimag.com/cache/d.js?s91a5"
 
             
 def main():
@@ -18,19 +38,26 @@ def main():
         xbmctools.addFolder(FILENAME,__language__(30016), "RECENT(url)", "http://dizimag.com/_yenie.asp?a=1")
         xbmctools.addFolder(FILENAME,__language__(30043), "Yabanci(url)", "http://dizimag.com/_diziliste.asp")
 
-         
+
+        
 
 def search():
         keyboard = xbmc.Keyboard("", 'Search', False)
         keyboard.doModal()
         if keyboard.isConfirmed():
             query = keyboard.getText()
-            #print query
-            url = ('http://diziport.com/index.php?eleman=' + query + '&bolum=dizi&obje=diziler&olay=arama')
-            print url
-        link=xbmctools.get_url(url)
-        for thumbnail,url,videoTitle in match:
-                xbmctools.addFolder(FILENAME,videoTitle,"Season(url)",'http://diziport.com/'+url,'http://diziport.com/'+thumbnail)
+            query=query.replace(' ','+')
+            query=xbmctools.name_fix(query)
+            print query
+            url = SEARCH
+            link=xbmctools.get_url(url)      
+            match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
+            print match
+            for url in match:
+                   videoTitle=re.compile('/([^ ]*)').findall(str(url))
+                   videoTitle=xbmctools.name_fix(videoTitle[0])
+                   url="http://www.dizimag.com"+str(url)
+                   xbmctools.addFolder(FILENAME,videoTitle,"Season(videoTitle,url,'')",url,'')
 
 def Yabanci(url):
         link=xbmctools.get_url(url)
@@ -46,8 +73,6 @@ def RECENT(url):
         match=re.compile('<a href=/(.*?) class="yana.*?"><img src=(.*?) class=avatar width=40><span><h1>(.*?)</h1>(.*?)<').findall(link)        
         
         for url,thumbnail,x,y in match:
-
-                print url
                 videoTitle=x+' - '+'('+y+')'
                 xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",MAINSITE+url,'http://i.dizimag.com/dizi/'+url+'.jpg')
                 
@@ -69,18 +94,16 @@ def Season(videoTitle,url,thumbnail):
                 
 def Episodes(videoTitle,url):
         link=xbmctools.get_url(url)
-        match=re.compile('<br><a href="(.*?)"><b style=color:yellow>(.*?)<font color=gray>(.*?)<\/font>').findall(link)
-        
-        if not match:
-                match=re.compile('<br><a href="/(.*?)"><b style=color:yellow>(.*?\s.*?)\s(.*?)<span class=gizle>').findall(link)
-                
-        for url,videoTitle,episode in match:
-               
-                xbmctools.addFolder("scraper",videoTitle+'  '+episode, "prepare_list(videoTitle,url)",MAINSITE+url,'')        
+        match=re.compile('<td width=30 class=fp><a href="(.*?).html"><img src=(.*?).jpg class=avatar width=30 height=30></a>').findall(link)
+        for url,thumbnail in match:
+                videoTitle=re.compile(r'/(.*?)-izle-dizi').findall(str(url))
+                videoTitle=xbmctools.name_fix(str(videoTitle))
+                url="http://www.dizimag.com"+str(url)+'.html'
+                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",MAINSITE+url,'')        
 
 
-        
-        
+
+
 def MAINMENU(url):
          xbmctools.addFolder(FILENAME,'<<<'+__language__(30002),"main()",'http://diziport.com/','')
 

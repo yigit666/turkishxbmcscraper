@@ -1,8 +1,7 @@
-﻿# Multi Documentary Streams, is an XBMC add on that sorts and displays 
+﻿# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
 # video content from several websites to the XBMC user.
 #
-# Copyright (C) 2011, Ricardo Ocana Leal
-#
+# Copyright (C) 2011, Emin Ayhan Colak
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -15,6 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# for more info please visit http://xbmctr.com
 
 '''
 Created on 6 nov 2011
@@ -35,12 +36,14 @@ Addon = xbmcaddon.Addon('plugin.video.xbmctr')
 addon_id = 'plugin.video.xbmctr'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addon_path = selfAddon.getAddonInfo('path')
-
+fanart = os.path.join( selfAddon.getAddonInfo( 'path' ), 'resources', 'images', 'fanart.jpg' )
 
 # Fetch all folders needed to run the add on
 folders = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resources', 'lib'))
 sys.path.append(folders)
 folders = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'channels'))
+sys.path.append(folders)
+folders = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resoures','image'))
 sys.path.append(folders)
 
 #Imported later than other modules, because first the "lib" folder has to be appended. 
@@ -50,12 +53,12 @@ import xbmctools
 Adds all folders in XBMC to the various websites.
 '''
 def listChannels():
-    xbmctools.addFolder("arama", "GLOBAL ARAMA", "main()", "", "arama")
+    xbmctools.addFolder("arama", "GLOBAL ARAMA", "main()", "", "special://home/addons/plugin.video.mediacenter/resources/images/next.png")
     xbmctools.addFolder("live", "Live TV ", "main()", "", "live")
     xbmctools.addFolder("dizimag", "DiziMag Streams", "main()", "", "dizimag")
-    xbmctools.addFolder("diziport", "DiziPort Streams", "main()", "", "diziport")
+    #xbmctools.addFolder("diziport", "DiziPort Artık dizi yayinlamiyor !", "main()", "", "diziport")
     xbmctools.addFolder("diziHd", "DiziHD Streams", "main()", "", "diziHd")
-    #xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
+    xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("fullfilm", "Sinema HD", "main()", "", "fullfilm")
     #xbmctools.addFolder("sinemaizle", "Sinema sd", "main()", "", "sinemaizle")
     xbmctools.addFolder("klip", "Music TV", "main()", "", "klip")
@@ -116,6 +119,8 @@ try:
     thumbnail = urllib.unquote_plus(params["thumbnail"])
 except:
     pass
+
+
 print "Name: "+str(name)
 print "FileName: "+str(fileName)
 print "Method: "+str(method)
