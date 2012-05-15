@@ -45,7 +45,19 @@ def main():
         ret = dialog.select(__language__(30047), [__language__(30048), __language__(30049)])
         if ret == 0:
 
-
+                try:
+                           
+                        url = SEARCH
+                        link=xbmctools.get_url(url)      
+                        match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
+                        xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
+                        for Url in match:
+                                videoTitle=re.compile('/([^ ]*)').findall(str(Url))
+                                videoTitle=xbmctools.name_fix(videoTitle[0])
+                                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,Url)",Url,'')
+                except:
+                            pass
+                
                 try:
                            
                            url = ('http://www.dizihd.com/?s='+ query +'&x=0&y=0')
@@ -59,18 +71,7 @@ def main():
                             pass
 
 
-                try:
-                           
-                        url = SEARCH
-                        link=xbmctools.get_url(url)      
-                        match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
-                        xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
-                        for Url in match:
-                                videoTitle=re.compile('/([^ ]*)').findall(str(Url))
-                                videoTitle=xbmctools.name_fix(videoTitle[0])
-                                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,Url)",Url,'')
-                except:
-                            pass
+               
 
         if ret == 1:
                 
