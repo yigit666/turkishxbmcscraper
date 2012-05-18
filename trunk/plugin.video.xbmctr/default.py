@@ -61,7 +61,7 @@ def listChannels():
     xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("fullfilm", "Sinema HD", "main()", "", "fullfilm")
     #xbmctools.addFolder("sinemaizle", "Sinema sd", "main()", "", "sinemaizle")
-    xbmctools.addFolder("klip", "Music TV", "main()", "", "klip")
+    xbmctools.addFolder("klip", "Music TV", "main()", "http://video-klipleri.org", "klip")
      
 '''
 Gets the various system parameters.

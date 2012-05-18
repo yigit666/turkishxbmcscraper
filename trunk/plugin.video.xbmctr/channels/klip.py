@@ -37,7 +37,7 @@ def main():
         xbmctools.addFolder(FILENAME,__language__(30012), "Last_searched(url)", "http://video-klipleri.org/")
         
 #sağdaki menuden kategorileri alıyor
-        url = 'http://video-klipleri.org/'
+        url = 'http://video-klipleri.org'
         link=xbmctools.get_url(url)
         match=re.compile('<div class="i_cats"><a href="(.*?)" title="(.*?)">.*?</a></div>').findall(link)
         ##

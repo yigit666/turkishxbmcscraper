@@ -27,7 +27,7 @@
 	<string id="30030">>> Turk TV Kanallar</string>
 	<string id="30031">>> Almanca TV</string>
 	<string id="30032">>> Ingilizce TV</string>
-	<string id="30033">>> Italyan TV</string>
+	<string id="30033">>> Turk RADYOLARI</string>
 	<string id="30034">>> Rus TV</string>
 	<string id="30035">>> Fransizca TV</string>
 	<string id="30036">>> Yesilcam</string>
@@ -44,4 +44,5 @@
 	<string id="30047">>> NE ISTERSINIZ?</string>
 	<string id="30048">>> DIZI MI?</string>
 	<string id="30049">>> SINEMA MI?</string>
+	<string id="30050">>> MUZIK MI?</string>
 </strings>

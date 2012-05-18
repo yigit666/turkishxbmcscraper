@@ -55,6 +55,7 @@ for multipage web site
 '''
 
 def prepare_page_list(Url,match):
+        print match,url
         urlList=''
         for pageUrl in match:
                 #web page list function
@@ -100,20 +101,21 @@ def set_vk(videoTitle,vk_link,i):
                 playList.add(videoLink)
                 #if i=='Tek Part':
                  #       return False
-
+        xbmcplugin.endOfDirectory(handle=int(sys.argv[1]), succeeded=True)
 
 def youtube_single(videoTitle,match):
         Url='plugin://plugin.video.youtube/?action=play_video&videoid=' + str(match)
         xbmctools.addVideoLink(videoTitle,Url,'')
         playList.add(Url)
 
-        
+        xbmcplugin.endOfDirectory(handle=int(sys.argv[1]), succeeded=True)
                 
 def xml_scanner(videoTitle,match):        
         xmlScan=xbmctools.get_url(match)
         face_1=re.compile('<videoPath value="http://www.dizihd.com/(.+?)"').findall(xmlScan)#xml ici face link
         youtube_1=re.compile('v=(.*?)"').findall(xmlScan)#xml içi youtube link
         dizimag=re.compile('url="(.*?)"').findall(xmlScan) #xml ici dizimag                               
+        music=re.compile('<file>(.*?)</file>').findall(xmlScan)
         try:
                 if len(youtube_1)> 0  :
                         for i in youtube_1:
@@ -131,6 +133,12 @@ def xml_scanner(videoTitle,match):
                                 xbmctools.addVideoLink(videoTitle+' Part '+str(x),i,'')
                                 playList.add(i)
                                 x+=1
+                if len(music)> 0  :
+                        for i in music:
+                                xbmctools.addVideoLink(videoTitle+' Part '+str(x),i,'')
+                                playList.add(i)
+                                x+=1
+                                
         except:
                 
                 xbmcPlayer.play(playList)
@@ -161,7 +169,8 @@ def prepare_list(videoTitle,Url):
         sinema_1=re.compile('name=".*?file=(.*?)&image=.*?"').findall(link)
         youtube_1=re.compile('youtube.com/.*?/(.*?)\?').findall(link)
         youtube_2=re.compile('youtube.com/.*?/(.*?)"').findall(link)
-        result = face_1,vk_1,vk_2,yabanci_1,streamer,full_1,full_2,lowres,highres,sinema_1,youtube_1,youtube_2
+        music=re.compile('http://player.iyimix.com/config/(.*?).xml').findall(link)
+        result = face_1,vk_1,vk_2,yabanci_1,streamer,full_1,full_2,lowres,highres,sinema_1,youtube_1,youtube_2,music
         print result,Url
 
         
@@ -194,6 +203,9 @@ def prepare_list(videoTitle,Url):
                 match = prepare_page_list(Url,tab)# add first and all page to list
                 page = prepare_face_links(videoTitle,match) #send list to face
 
+        for code in music:
+                url = 'http://player.iyimix.com/playlist/' + code+ '.xml'
+                xml_scanner(videoTitle,url)
         '''Dizimag section'''
         if len(lowres) > 0:
                 dialog = xbmcgui.Dialog()

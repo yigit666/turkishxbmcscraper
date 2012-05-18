@@ -27,7 +27,7 @@
 	<string id="30030">>> Turkish</string>
 	<string id="30031">>> Deutch</string>
 	<string id="30032">>> English</string>
-	<string id="30033">>> Italian</string>
+	<string id="30033">>> Turkish FM</string>
 	<string id="30034">>> Russian</string>
 	<string id="30035">>> French</string>
 	<string id="30036">>> Yesilcam</string>
@@ -44,4 +44,5 @@
 	<string id="30047">>> Kind of Search</string>
 	<string id="30048">>> Tv Shows ?</string>
 	<string id="30049">>> Movies ?</string>
+	<string id="30050">>> Music Video ?</string>
 </strings>

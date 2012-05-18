@@ -1,5 +1,4 @@
-﻿import urllib,urllib2,re,sys
-# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
+﻿# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
 # video content from several websites to the XBMC user.
 #
 # Copyright (C) 2011, Emin Ayhan Colak
@@ -19,6 +18,8 @@
 # for more info please visit http://xbmctr.com
 
 
+
+import urllib,urllib2,re,sys
 import xbmcplugin,xbmcgui,xbmcaddon,xbmc
 import scraper, xbmctools
 
@@ -30,7 +31,6 @@ __language__ = __settings__.getLocalizedString
 
 FILENAME = "arama"
 
-SEARCH="http://i.dizimag.com/cache/d.js?s91a5"
 
 def main():
         keyboard = xbmc.Keyboard("", 'Search', False)
@@ -42,20 +42,21 @@ def main():
 
 
         dialog = xbmcgui.Dialog()
-        ret = dialog.select(__language__(30047), [__language__(30048), __language__(30049)])
+        ret = dialog.select(__language__(30047), [__language__(30048), __language__(30049),__language__(30050)])
         if ret == 0:
 
                 try:
                            
-                        url = SEARCH
+                        url ="http://i.dizimag.com/cache/d.js?s91a5"
                         link=xbmctools.get_url(url)      
                         match=re.compile('{ d: "*'+query+'.*?", s: "(.*?)" }').findall(link)
-                        if len(match)>1:
+                        if len(match)>0:
                                 xbmctools.addFolder(FILENAME,'--------DiziMag--------' ,"",'','')
-                        for Url in match:
-                                videoTitle=re.compile('/([^ ]*)').findall(str(Url))
-                                videoTitle=xbmctools.name_fix(videoTitle[0])
-                                xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,Url)",Url,'')
+                                for url in match:
+                                        videoTitle=re.compile('/([^ ]*)').findall(str(url))
+                                        videoTitle=xbmctools.name_fix(videoTitle[0])
+                                        url="http://www.dizimag.com"+str(url)
+                                        xbmctools.addFolder("dizimag",videoTitle,"Season(videoTitle,url,'')",url,'')
                 except:
                             pass
                 
@@ -64,7 +65,7 @@ def main():
                            url = ('http://www.dizihd.com/?s='+ query +'&x=0&y=0')
                            link=xbmctools.get_url(url)      
                            match=re.compile('<a href="(.+?)"><img src="(.+?)" ></a>\r\n\t\t\t\t\t\t<h2><a href=".+?">(.+?)izle.*?</a>').findall(link)
-                           if len(match)>1:
+                           if len(match)>0:
                                    xbmctools.addFolder(FILENAME,'--------Dizi HD--------' ,"",'','')
                                    for url,thumbnail,videoTitle in match:
                                            xbmctools.addFolder("scraper",videoTitle,"prepare_list(videoTitle,url)",url,thumbnail)
@@ -76,17 +77,29 @@ def main():
 
         if ret == 1:
                 
-            try:
-                Url = ('http://www.filmifullizle.com/index.php?s=' + query)
-                print Url
-                link=xbmctools.get_url(Url)
-                match=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
-                print match
-                if len(match)>1:
-                        xbmctools.addFolder(FILENAME,'--------Sinema HD--------' ,"",'','')
-                        for url,thumbnail,videoTitle in match:
-                                xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",url,thumbnail)
-                                
+                
+                try:
+                        Url = ('http://www.filmifullizle.com/index.php?s=' + query)
+                        print Url
+                        link=xbmctools.get_url(Url)
+                        match=re.compile('<div style="float: left;">\n<a href="(.*?)"><img src="(.*?)" alt="(.*?)"').findall(link)
+                        if len(match)>1:
+                                xbmctools.addFolder(FILENAME,'--------Sinema HD--------' ,"",'','')
+                                for url,thumbnail,videoTitle in match:
+                                        xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",url,thumbnail)
+                except:
+                        pass
+                
+        if ret == 2:
+                        
+                try:
+                        Url = ('http://video-klipleri.org/arama?q='+ query)
+                        link=xbmctools.get_url(Url)
+                        match=re.compile('<a href="(.*?)"><img src="(.*?)"  alt="(.*?)"').findall(link)
+                        if len(match)>1:
+                                xbmctools.addFolder(FILENAME,'--------Klip TV--------' ,"",'','')
+                                for url,thumbnail,videoTitle in match:
+                                        xbmctools.addFolder("scraper",videoTitle, "prepare_list(videoTitle,url)",url,thumbnail)                        
                     
-            except:
-                print 'okumadı'
+                except:
+                        print 'okumadı'

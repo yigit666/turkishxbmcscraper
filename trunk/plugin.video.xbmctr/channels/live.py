@@ -37,9 +37,10 @@ url='http://drascom.dyndns.org/site/'
 
 def main():
      xbmctools.addFolder(FILENAME,__language__(30030), "BuildPage(code='TR')", "tr")
+     xbmctools.addFolder(FILENAME,__language__(30033), "BuildPage(code='RA')", "")
      xbmctools.addFolder(FILENAME,__language__(30031), "BuildPage(code='DE')", "")
      xbmctools.addFolder(FILENAME,__language__(30032), "BuildPage(code='EN')", "")
-     xbmctools.addFolder(FILENAME,__language__(30033), "BuildPage(code='IT')", "")
+     
      xbmctools.addFolder(FILENAME,__language__(30034), "BuildPage(code='RU')", "")
      xbmctools.addFolder(FILENAME,__language__(30035), "BuildPage(code='FR')", "")
      xbmctools.addFolder(FILENAME,__language__(30036), "BuildPage(code='YE')", "")
