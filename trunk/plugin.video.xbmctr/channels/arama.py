@@ -1,7 +1,7 @@
 ﻿# xbmctr MEDIA CENTER, is an XBMC add on that sorts and displays 
 # video content from several websites to the XBMC user.
 #
-# Copyright (C) 2011, Emin Ayhan Colak
+# Copyright (C) 2011, DR Ayhan Colak
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
