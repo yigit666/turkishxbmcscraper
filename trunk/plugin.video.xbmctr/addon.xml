@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.xbmctr"
        name="xbmcTR Media Center"
+<<<<<<< .mine
+       version="0.2.6.2"
+=======
        version="0.2.5.8"
+>>>>>>> .r222
        provider-name="xbmcTR TEAM">
     <requires>
 		<import addon="xbmc.python" version="1.0"/>
 		<import addon="script.module.beautifulsoup" version="3.0.8"/>
 		<import addon="script.module.simplejson" />
+		<import addon="script.module.mechanize" version="0.2.5"/>
 	</requires>
   <extension point="xbmc.python.pluginsource"
             library="default.py">

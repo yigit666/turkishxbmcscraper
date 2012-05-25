@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-9" standalone="yes"?>
 <strings>
-	<string id="30000">Username</string>
-	<string id="30001">Password</string>
+	<string id="30000">Kullanıcı Adı</string>
+	<string id="30001">Şifre</string>
   <string id="30002"> ANA SAYFA </string>
   <string id="30003">>> WATCH VIDEO</string>
   <string id="30004">>> Belgesel</string>

@@ -53,10 +53,10 @@ import xbmctools
 Adds all folders in XBMC to the various websites.
 '''
 def listChannels():
+    xbmctools.addFolder("ttl", "TTL TEST  !", "main()", "", "ttl")
     xbmctools.addFolder("arama", "GLOBAL ARAMA", "main()", "", "special://home/addons/plugin.video.mediacenter/resources/images/next.png")
     xbmctools.addFolder("live", "Live TV ", "main()", "", "live")
     xbmctools.addFolder("dizimag", "DiziMag Streams", "main()", "", "dizimag")
-    #xbmctools.addFolder("diziport", "DiziPort Artık dizi yayinlamiyor !", "main()", "", "diziport")
     xbmctools.addFolder("diziHd", "DiziHD Streams", "main()", "", "diziHd")
     xbmctools.addFolder("yabancidizi", "Full Yabancı", "main()", "", "yabancidizi")
     xbmctools.addFolder("fullfilm", "Sinema HD", "main()", "", "fullfilm")

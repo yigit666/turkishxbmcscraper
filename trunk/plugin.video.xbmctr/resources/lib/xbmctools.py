@@ -30,9 +30,8 @@ import os
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 
 site='http://xbmctr.com/'
-site2='http://192.168.0.52/site/'
 Addon = xbmcaddon.Addon('plugin.video.xbmctr')
-
+variable='.x'
 addon_id = 'plugin.video.xbmctr'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addon_path = selfAddon.getAddonInfo('path')
@@ -41,8 +40,7 @@ __language__ =selfAddon.getLocalizedString
 
 
 #Auto-watch
-currentTime = 1
-totalTime = 0
+
 
 
 #Variable for multi-part
@@ -52,19 +50,17 @@ finalPart = True
 IMAGES_PATH = xbmc.translatePath(os.path.join(Addon.getAddonInfo('path'), 'resources', 'images'))
 
 ################################################################################
-def name_fix(x):
+def name_fix(x):        
         x=x.replace('-',' ')
         return x[0].capitalize() + x[1:]
 
-
-def setUrl():
-    
-        Url=site+'sys.html'
-        link=get_url(Url)
-        safe=re.compile('<font size="1" color="white">(.*?)</font>').findall(link)
-        Url=str(safe[0])
-        return Url
-
+def settt(link,code):
+        if code == 'tt':
+                match=re.compile('<uye><tr><td>.*?</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td></tr></uye>').findall(link)
+        else:
+                match=re.compile('<kanal><tr><td>.*?</td><td>'+code+'</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td></tr></kanal>').findall(link)
+        return match
+        
 def get_url(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -151,7 +147,9 @@ def stage(videoTitle,links):
             download(videoLink, filepath)
             iscanceled = True
             xbmc.executebuiltin('Notification("Media Center","part Complete")')
-                
+def namefix():
+        sitepasssword='mozilla'
+        return sitepasssword                
 def Download_tool():        
         if downloadFolder is '':
                 d = xbmcgui.Dialog()
