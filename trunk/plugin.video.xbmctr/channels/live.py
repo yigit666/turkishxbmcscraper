@@ -32,7 +32,6 @@ FILENAME = "live"
 
             
 def main():
-<<<<<<< .mine
         xbmctools.addFolder(FILENAME,__language__(30030), "BuildPage(code='TR')", "tr")
         xbmctools.addFolder(FILENAME,__language__(30033), "BuildPage(code='RA')", "")
         xbmctools.addFolder(FILENAME,__language__(30031), "BuildPage(code='DE')", "")
@@ -43,18 +42,6 @@ def main():
         xbmctools.addFolder(FILENAME,__language__(30036), "BuildPage(code='YE')", "")
         xbmctools.addFolder(FILENAME,__language__(30037), "BuildPage(code='CA')", "")
         xbmctools.addFolder(FILENAME,__language__(30038), "BuildPage(code='CA2')", "")
-=======
-     xbmctools.addFolder(FILENAME,__language__(30030), "BuildPage(code='TR')", "tr")
-     xbmctools.addFolder(FILENAME,__language__(30033), "BuildPage(code='RA')", "")
-     xbmctools.addFolder(FILENAME,__language__(30031), "BuildPage(code='DE')", "")
-     xbmctools.addFolder(FILENAME,__language__(30032), "BuildPage(code='EN')", "")
-     
-     xbmctools.addFolder(FILENAME,__language__(30034), "BuildPage(code='RU')", "")
-     xbmctools.addFolder(FILENAME,__language__(30035), "BuildPage(code='FR')", "")
-     xbmctools.addFolder(FILENAME,__language__(30036), "BuildPage(code='YE')", "")
-     xbmctools.addFolder(FILENAME,__language__(30037), "BuildPage(code='CA')", "")
-     xbmctools.addFolder(FILENAME,__language__(30038), "BuildPage(code='CA2')", "")
->>>>>>> .r222
 
 
 def BuildPage(code):

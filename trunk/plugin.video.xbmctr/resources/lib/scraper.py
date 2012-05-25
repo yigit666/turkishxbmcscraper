@@ -55,7 +55,6 @@ for multipage web site
 '''
 
 def prepare_page_list(Url,match):
-        print match,url
         urlList=''
         for pageUrl in match:
                 #web page list function
