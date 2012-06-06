@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+<addon id="drascom.xbmc-plugins" name="drascom addon Deposu" version="1.1" provider-name="drascom">
+	<extension point="xbmc.addon.repository" name="drascom Add-on Repository">
+		<info compressed="true">http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml</info>
+		<checksum>http://turkishxbmcscraper.googlecode.com/svn/trunk/addons.xml.md5</checksum>
+		<datadir zip="true">http://turkishxbmcscraper.googlecode.com/svn/trunk/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="tr">Drascom Test Deposu </summary>
+		<summary lang="en">Drascom Test Repository</summary>
+		<description lang="en">Everything i learned writen for xbmc.There are Movie info scraper,music, Live tv,Movie,Tv shows Add-ons here</description>
+		<description>Xbmc için yazılmış tek turkçe eklenti kaynağı.Filmler diziler Canlı tv Film bilgisi ve coook daha fazlası xbmcTR.com </description>
+		<disclaimer>Çalışmıyorsa düzeltmeye vaktim yoktur.Çok kurcalamayın kısa zamanda kendisi düzelir. :)</disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+</addons>
