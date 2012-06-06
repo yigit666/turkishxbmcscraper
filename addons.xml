@@ -18,7 +18,7 @@
 
 <addon id="plugin.video.xbmctr"
        name="xbmcTR Media Center"
-       version="0.2.6.7"
+       version="0.2.6.8"
        provider-name="xbmcTR TEAM">
     <requires>
 		<import addon="xbmc.python" version="1.0"/>
@@ -34,5 +34,25 @@
     <description>xbmcTR.com sunar..Canlı yayın, Diziler , Sİnema Filmeri Hepsi elinizin altında</description>
     <platform>all</platform>
   </extension>
+</addon>
+
+<addon id="xbmcTR.repo"
+		name="xbmcTR Addons-Eklenti Deposu"
+		version="1.0.8"
+		provider-name="drascom">
+	<requires>
+       <import addon="xbmc.python" version="1.0"/>
+	</requires>
+	<extension point="xbmc.addon.repository" name="drascom Add-on Repository">
+		<info compressed="true">http://xbmc-tr-team-turkish-addons.googlecode.com/svn/trunk/addons.xml</info>
+		<checksum>http://xbmc-tr-team-turkish-addons.googlecode.com/svn/trunk/addons.xml.md5</checksum>
+		<datadir zip="true">http://xbmc-tr-team-turkish-addons.googlecode.com/svn/trunk/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Install Add-ons from xbmcTR Add-on Repository</summary>
+		<description>Video plug-ins and Movie info scrapers for XBMC</description>
+		<disclaimer></disclaimer>
+		<platform>all</platform>
+	</extension>
 </addon>
 </addons>
