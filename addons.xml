@@ -21,7 +21,7 @@
 </addon>
 
 <addon id="plugin.video.diziizle"
-       name="Dizi izle"
+       name="Deneme"
        version="0.0.1"
        provider-name="xbmcTR Team">
   <requires>
