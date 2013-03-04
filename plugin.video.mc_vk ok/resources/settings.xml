@@ -1,0 +1,7 @@
+<settings>
+	<category label="XBMC TR ">
+		<setting id="uname" label="30000" type="text" default=""/>
+		<setting id="sitepassword"   label="30001" type="text" option="hidden" default=""/>
+		<setting id="downloadFolder" type="folder" source="files" label="Download Location"  option="writeable" default=""/>
+	</category>
+</settings>

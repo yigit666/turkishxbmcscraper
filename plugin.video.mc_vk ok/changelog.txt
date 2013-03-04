@@ -1,0 +1,64 @@
+[B]Version 2.7.8[/B]
+ - full film hata giderildi
+[B]Version 2.7.7[/B]
+ - fullfilm yeni video sistemi eklendi
+ - global aramada full film fixlendi
+ 
+[B]Version 2.7.6[/B]
+- dizimag adres deðiþiklikleri yapýldý
+- base64 kodlamasý çözüldü videolinkler çalýþýyor
+- yeni bolumlerde thumbnail çözüldü artýk posterler goruluyor.
+- klip tv yeni sisteme gore yeniden duzunlendi sorunsuz.
+[B]Version 2.7.5[/B]
+Resim sorunu giderildi
+turkweb tw eklendi
+arama fonksiyonu iyileþtirildi
+" ve ' karakter hatalarý düzeltildi
+sinema sd pornograf nedeniyle kaldýrýldý.
+[B]Version 2.6.4[/B]
+yabanci dizi fixed
+sinevizyon added
+yabancidizi multible lik fixed
+[B]Version 2.5.0[/B]
+- All structure changed
+- Many service add
+-play all parts and download function added
+- many more
+[B]Version 0.6.7[/B]
+- Added icon.png
+
+[B]Version 0.6.6[/B]
+- Minor fix to Documentary Wire.
+Some categories don't work at the moment, because of website errors.
+
+[B]Version 0.6.5[/B]
+- Minor enhancement.
+Added support for displaying duration of documentary in info page, when available. 
+
+[B]Version 0.6.4[/B]
+- Minor fix for displaying channel fanart.
+
+[B]Version 0.6.3[/B]
+- Minor fix
+- Added image for "Next" selection
+
+[B]Version 0.6.2[/B]
+- Minor changes
+
+[B]Version 0.6.1[/B]
+- Added images for channels
+
+[B]Version 0.6[/B]
+- Added support for Documentary Stream
+
+[B]Version 0.5[/B]
+- Added more support for video hosts
+
+[B]Version 0.4[/B]
+- Added support for Documentary Wire
+
+[B]Version 0.3[/B]
+- Added support for some video hosting sites
+
+[B]Version 0.2[/B]
+- Added support for Top Documentary Films
