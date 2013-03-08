@@ -1,0 +1,10 @@
+
+22.07.2012
+- Version 0.0.1 sunuldu
+
+23.07.2012
+- Info Mensusu eklendi
+- Arama Funksiyonu duzeltildi
+
+by Kanakan 
+www.xbmctr.com TEAM ve XMAXELL 'e Tesekkurler 
