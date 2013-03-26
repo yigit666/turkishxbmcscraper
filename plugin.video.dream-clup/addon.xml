@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.dream-clup"
+       name="XbmcTR Dream-Clup"
+       version="2.0.5"
+       provider-name="xbmcTR TEAM">
+    <requires>
+		<import addon="xbmc.python" version="1.0"/>
+		<import addon="script.module.beautifulsoup" version="3.0.8"/>
+		<import addon="script.module.simplejson" />
+		<import addon="script.xbmctr" />
+		<import addon="script.module.mechanize" version="0.2.5"/> 
+	</requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Videos Live TV Tvshows from many turkish sources</summary>
+    <description>xbmcTR.com sunar..Canli yayin, Diziler , Sinema Filmeri Hepsi elinizin altinda</description>
+    <platform>all</platform>
+  </extension>
+</addon>
